@@ -1,14 +1,12 @@
 <?php
 
 add_action('acf/init', 'hfm_acf_init_blocks');
-function hfm_acf_init_blocks()
-{
-
+function hfm_acf_init_blocks() {
     if (function_exists('acf_register_block_type')) {
         acf_register_block_type(
             array(
                 'name'            => 'related-products',
-                'title'           => '[wevi]연관 상품',
+                'title'           => '[singleview]연관 상품',
                 'description'     => '',
                 'render_template' => 'block-templates/relatedProducts.php',
                 'category'        => 'widgets',
@@ -24,7 +22,7 @@ function hfm_acf_init_blocks()
         acf_register_block_type(
             array(
                 'name'            => 'materials',
-                'title'           => '[wevi]준비물',
+                'title'           => '[singleview]준비물',
                 'description'     => '',
                 'render_template' => 'block-templates/materials.php',
                 'category'        => 'widgets',
@@ -40,7 +38,7 @@ function hfm_acf_init_blocks()
         acf_register_block_type(
             array(
                 'name'            => 'procedure',
-                'title'           => '[wevi]과정',
+                'title'           => '[singleview]과정',
                 'description'     => '',
                 'category'        => 'widgets',
                 'icon'            => 'admin-comments',
@@ -58,8 +56,7 @@ function hfm_acf_init_blocks()
 }
 
 
-function custom_qna_shortcode()
-{
+function custom_qna_shortcode() {
 
     $board_id = 4; // 새로 만든 게시판의 ID값으로 수정해주세요.
     $iframe_id = uniqid();
@@ -70,4 +67,3 @@ function custom_qna_shortcode()
     return '<iframe id="kboard-iframe-' . $iframe_id . '" class="kboard-iframe kboard-iframe-' . $board_id . '" src="' . $url->set('kboard_id', $board_id)->set('iframe_id', $iframe_id)->toString() . '" style="width:100%" scrolling="no" frameborder="0"></iframe>';
 }
 add_shortcode('custom_qna', 'custom_qna_shortcode');
-
