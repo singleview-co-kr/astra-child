@@ -15,7 +15,7 @@ $products = get_field('product');
                     $cnt++;
                 endforeach; ?>
             <?php else : ?>
-                <div class="productSwiper">
+                <div class="related_productSwiper">
                     <div class="swiper-wrapper">
                         <?php foreach ($products as $item) : ?>
                             <div class="swiper-slide">
@@ -35,7 +35,7 @@ $products = get_field('product');
 </div>
 <?php if (!is_admin() && !empty($products)) { ?>
     <script>
-        const productSwiper = new Swiper('.productSwiper', {
+        const related_productSwiper = new Swiper('.related_productSwiper', {
             slidesPerView: 1.4,
             spaceBetween: 30,
             breakpoints: {
