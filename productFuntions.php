@@ -6,29 +6,43 @@ function wv_prod_price_shortcode()
     global $product;
 
     $product_id = get_the_ID();
-    $product = wc_get_product($product_id);
+    $product    = wc_get_product($product_id);
+    $volume     = get_field('volume');
 
-    $volume = get_field('volume');
-    $weight = $product->get_weight();
+    if( is_object( $product ) ){
+        $weight        = $product->get_weight();
+        $attributes    = $product->get_attributes();
+        $sale_price    = $product->get_sale_price();
+        $regular_price = $product->get_regular_price();
+    }
+    else {
+        $weight        = null;
+        $attributes    = null;
+        $sale_price    = null;
+        $regular_price = null;
+    }
+    
     $link_setting = get_field('link_setting');
-
-    $attributes = $product->get_attributes();
-    if($attributes['pa_incense']){
+    
+    if(isset($attributes['pa_incense'])){
         $incense_attribute = $attributes['pa_incense'];
         if ($incense_attribute->is_taxonomy()) {
-            $values = wc_get_product_terms($product_id, $incense_attribute->get_name(), array('fields' => 'names'));
+            $values  = wc_get_product_terms($product_id, $incense_attribute->get_name(), array('fields' => 'names'));
             $incense = join(', ', $values);
         } else {
             $incense = $incense_attribute->get_options();
         }
     }
+    else {
+        $incense = null;
+    }
 
     ob_start();
 ?>
 
-    <div id="prod_detail" class="<?= wc_price($product->get_sale_price()) != '' ? 'on-sale' : '' ?>">
-        <p class="price"><span class="tit">판매가</span><span class="description"><?= wc_price($product->get_regular_price()) ?></span></p>
-        <p class="sale-price"><span class="tit">할인가</span><span class="description"><?= wc_price($product->get_sale_price()) ?></span></p>
+    <div id="prod_detail" class="<?= wc_price( $sale_price ) != '' ? 'on-sale' : '' ?>">
+        <p class="price"><span class="tit">판매가</span><span class="description"><?= wc_price( $regular_price ) ?></span></p>
+        <p class="sale-price"><span class="tit">할인가</span><span class="description"><?= wc_price( $sale_price ) ?></span></p>
         <?php if ($incense) : ?><p class=""><span class="tit">향</span><span class="description"><?= esc_html($incense) ?></span></p><?php endif ?>
         <?php if ($volume) : ?><p class=""><span class="tit">용량</span><span class="description"><?= $volume ?></span></p><?php endif ?>
         <?php if ($weight) : ?><p class=""><span class="tit">무게</span><span class="description"><?= $weight ?>kg</span></p><?php endif ?>
