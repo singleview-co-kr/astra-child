@@ -106,7 +106,7 @@ function pr($anything)
 include "main_functions.php";
 include "productFuntions.php";
 include "postTopicList.php";
-include "postSettings.php";
+// include "postSettings.php";
 include "admin/wpPostSelectCategory.php";
 include "wpCustomBlocks.php";
 include "totalSearch.php";

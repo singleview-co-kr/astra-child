@@ -247,9 +247,9 @@ function data_fetch()
             $products_output .= "<div class='thumbnail'><img src='" . get_the_post_thumbnail_url($product_id, 'medium') . "'></div>";
             $products_output .= "<div class='text-wrap'>";
             $products_output .= "<p class='title ellipsis-1'>" . get_the_title() . "</p>";
-            $products_output .= "<p class='price'>" . number_format($product->get_regular_price()) . "원</p>";
+            $products_output .= "<p class='price'>" . number_format(intval($product->get_regular_price())) . "원</p>";
             if ($product->get_sale_price() > 0) {
-                $products_output .= "<p class='sale'>" . number_format($product->get_sale_price()) . "원</p>";
+                $products_output .= "<p class='sale'>" . number_format(intval($product->get_sale_price())) . "원</p>";
             }
             $products_output .= "</div>";
 
