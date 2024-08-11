@@ -80,28 +80,6 @@ function remove_admin_bar()
     }
 }
 
-/* 디버깅 */
-function vd($anything)
-{
-    echo '<pre>';
-    var_dump($anything);
-    echo '</pre>';
-    die();
-}
-
-function pr($anything)
-{
-    /* if (current_user_can('administrator')) {
-        echo '<pre>';
-        print_r($anything);
-        echo '</pre>';
-    } */
-
-    echo '<pre>';
-    print_r($anything);
-    echo '</pre>';
-    // die();
-}
 
 include "main_functions.php";
 include "productFuntions.php";
