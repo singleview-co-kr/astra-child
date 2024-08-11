@@ -170,7 +170,7 @@ function data_fetch()
     $keyword = $_POST['keyword'];
     $response = array();
 
-    $type = $_POST['type'];
+    // $type = $_POST['type'];
     $page = isset($_POST['page']) ? $_POST['page'] : 1;
     $posts_per_page = 9;
     $offset = ($page - 1) * $posts_per_page;
@@ -343,7 +343,7 @@ function data_fetch()
     wp_die();
 }
 
-function search_filter_by_title_only($search, &$wp_query)
+function search_filter_by_title_only($search, $wp_query)
 {
     global $wpdb;
 
@@ -357,7 +357,7 @@ function search_filter_by_title_only($search, &$wp_query)
         $search_terms = $wp_query->query_vars['search_terms'];
         $search = '';
         foreach ($search_terms as $term) {
-            $search .= "{$wpdb->posts}.post_title LIKE '%" . esc_sql(like_escape($term)) . "%' OR ";
+            $search .= "{$wpdb->posts}.post_title LIKE '%" . esc_sql($wpdb->esc_like($term)) . "%' OR ";
         }
 
         // 마지막 'OR' 제거
