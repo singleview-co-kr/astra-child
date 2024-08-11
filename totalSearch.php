@@ -61,7 +61,9 @@ function total_search_shortcode()
     </div>
     <script>
         jQuery(document).ready(function($) {
-            data_fetch('');
+            jQuery('#btn_global_search_layer_open a').click(function() {  // Prevent aimless ajax call
+                data_fetch(''); 
+            });
 
             $('#search-input').keypress(function(event) {
                 if (event.which == 13) {
