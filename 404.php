@@ -1,53 +1,39 @@
-<style>
-    /*======================
-    404 page
-=======================*/
+<?php
+/**
+ * The template for displaying 404 pages (not found).
+ *
+ * @link https://codex.wordpress.org/Creating_an_Error_404_Page
+ *
+ * @package Astra
+ * @since 1.0.0
+ */
 
-    .page_404 {
-        padding: 40px 0;
-        background: #fff;
-    }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
-    .page_404 img {
-        width: 100%;
-    }
+get_header(); ?>
 
-    .four_zero_four_bg h1 {
-        font-size: 50px;
-        margin-bottom: 20px;
-    }
+<?php if ( astra_page_layout() == 'left-sidebar' ) : ?>
 
-    .four_zero_four_bg h3 {
-        font-size: 50px;
-    }
+	<?php get_sidebar(); ?>
 
-    .link_404 {
-        color: #fff !important;
-        padding: 10px 20px;
-        background: #000;
-        margin: 20px 0;
-        display: inline-block;
-    }
+<?php endif ?>
 
-    .contant_box_404 {
-        margin-top: -50px;
-    }
-</style>
-<section class="page_404">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 ">
-                <div class="col-sm-10 col-sm-offset-1  text-center">
+	<div id="primary" <?php astra_primary_class(); ?>>
 
-                    <div class="contant_box_404">
-                        <h1 class="text-center ">작업 진행중</h1>
+		<?php astra_primary_content_top(); ?>
 
-                        <p>~2024.04.22</p>
+		<?php astra_404_content_template(); ?>		
 
-                        <!-- <a href="<?= home_url() ?>" class="link_404">Go to Home</a> -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+		<?php astra_primary_content_bottom(); ?>
+
+	</div><!-- #primary -->
+
+<?php if ( astra_page_layout() == 'right-sidebar' ) : ?>
+
+	<?php get_sidebar(); ?>
+
+<?php endif ?>
+
+<?php get_footer(); ?>
