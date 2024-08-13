@@ -1,7 +1,7 @@
 <?php
 
-add_shortcode('wv_prod_price', 'wv_prod_price_shortcode');
-function wv_prod_price_shortcode()
+add_shortcode('sv_prod_price', 'sv_prod_price_shortcode');
+function sv_prod_price_shortcode()
 {
     global $product;
 
@@ -60,8 +60,8 @@ function wv_prod_price_shortcode()
     return ob_get_clean();
 }
 
-add_shortcode('wv_prod_related_product', 'wv_prod_related_product_shortcode');
-function wv_prod_related_product_shortcode()
+add_shortcode('sv_prod_related_product', 'sv_prod_related_product_shortcode');
+function sv_prod_related_product_shortcode()
 {
     $products = get_field('recommend_product');
 
@@ -102,8 +102,8 @@ function wv_prod_related_product_shortcode()
     return ob_get_clean();
 }
 
-add_shortcode('wv_prod_related_posts', 'wv_prod_related_posts_shortcode');
-function wv_prod_related_posts_shortcode()
+add_shortcode('sv_prod_related_posts', 'sv_prod_related_posts_shortcode');
+function sv_prod_related_posts_shortcode()
 {
     $posts = get_field('related_post');
 
@@ -158,24 +158,24 @@ function custom_script_load_for_product_page()
     ?>
         <script>
             jQuery(document).ready(function($) {
-                if ($("#wv_prod_content").length) {  // The element exists
-                    var originalHeight = $('#wv_prod_content').get(0).scrollHeight;
+                if ($("#sv_prod_content").length) {  // The element exists
+                    var originalHeight = $('#sv_prod_content').get(0).scrollHeight;
                 } else {  // The element does not exist
                     var originalHeight = 0;
                 }
 
                 if (originalHeight > 500) {
-                    $('#wv_prod_content').addClass('short');
+                    $('#sv_prod_content').addClass('short');
                 }
 
                 $('#toggle-button a').click(function(e) {  // 상세 페이지 펼치기 버튼
                     e.preventDefault();
-                    var element = $('#wv_prod_content');
+                    var element = $('#sv_prod_content');
                     if (element.hasClass('short')) {
                         element.removeClass('short');
                         $('#toggle-button a').find('svg').css('transform', 'rotate(180deg)');
                     } else {
-                        $('#wv_prod_content').addClass('short');
+                        $('#sv_prod_content').addClass('short');
                         $('#toggle-button a').find('svg').css('transform', 'rotate(0deg)');
                     }
                 });
@@ -216,12 +216,12 @@ function custom_script_load_for_shop_page()
 
                 /* $('#toggle-button a').click(function(e) {
                     e.preventDefault();
-                    var element = $('#wv_prod_content');
+                    var element = $('#sv_prod_content');
                     if (element.hasClass('short')) {
                         element.removeClass('short');
                         $('#toggle-button a').find('svg').css('transform', 'rotate(180deg)');
                     } else {
-                        $('#wv_prod_content').addClass('short');
+                        $('#sv_prod_content').addClass('short');
                         $('#toggle-button a').find('svg').css('transform', 'rotate(0deg)');
                     }
                 });
