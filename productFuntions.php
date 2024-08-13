@@ -60,7 +60,7 @@ function wv_prod_price_shortcode()
     return ob_get_clean();
 }
 
-add_shortcode('wv_prod_related_product', 'wv_prod_related_product_shortcode');
+// add_shortcode('wv_prod_related_product', 'wv_prod_related_product_shortcode');
 function wv_prod_related_product_shortcode()
 {
     $products = get_field('recommend_product');
@@ -124,7 +124,10 @@ function wv_prod_related_posts_shortcode()
                         $tags_array[] = $tag->name; // 태그 이름을 배열에 추가
                     }
                 }
-                $post_content = apply_filters('the_content', get_post_field('post_content', $post_id));
+                $post_excerpt = apply_filters('the_excerpt', get_post_field('post_excerpt', $post_id));
+                if( $post_excerpt == '' ){
+                    $post_excerpt = '포스팅 자세히 보기';
+                }
             ?>
                 <div class="item">
                     <div class="thumbnail">
@@ -139,7 +142,7 @@ function wv_prod_related_posts_shortcode()
                         <a href="<?php echo get_permalink($post_id); ?>">
                             <p class="title ellipsis-1"><?php echo get_the_title($post_id); ?></p>
                         </a>
-                        <div class="description ellipsis-2"><?= $post_content ?></div>
+                        <div class="description ellipsis-2"><?= $post_excerpt ?></div>
                     </div>
                 </div>
             <?php endforeach; ?>
