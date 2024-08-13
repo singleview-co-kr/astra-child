@@ -60,7 +60,7 @@ function wv_prod_price_shortcode()
     return ob_get_clean();
 }
 
-// add_shortcode('wv_prod_related_product', 'wv_prod_related_product_shortcode');
+add_shortcode('wv_prod_related_product', 'wv_prod_related_product_shortcode');
 function wv_prod_related_product_shortcode()
 {
     $products = get_field('recommend_product');
