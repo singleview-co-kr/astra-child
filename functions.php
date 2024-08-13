@@ -14,6 +14,26 @@
  */
 define('CHILD_THEME_ASTRA_CHILD_VERSION', '1.0.0');
 
+
+/* add_action('wp_loaded', 'custom_redirect_all_access_including_admin');
+function custom_redirect_all_access_including_admin() {
+    $allowed_ips = array('211.202.91.71'); // 허용할 IP 주소를 여기에 입력하세요.
+    $redirect_page_path = '/404/'; // 리디렉션할 페이지의 경로를 여기에 입력하세요.
+    $redirect_page_url = home_url() . $redirect_page_path; // 전체 URL 생성
+
+    // 현재 페이지가 리디렉션 대상 페이지인지 확인
+    if ($_SERVER['REQUEST_URI'] == $redirect_page_path) {
+        return; // 현재 페이지가 리디렉션 대상 페이지이면 리디렉션 수행하지 않음
+    }
+
+    // 현재 접근 IP가 허용 목록에 없으면 리디렉션
+    if (!in_array($_SERVER['REMOTE_ADDR'], $allowed_ips)) {
+        wp_redirect($redirect_page_url);
+        exit;
+    }
+}*/
+
+
 /**
  * Enqueue styles
  */
@@ -22,16 +42,16 @@ function child_enqueue_styles()
     wp_enqueue_style('bootstrap-css', get_stylesheet_directory_uri() . '/assets/vendor/bootstrap/bootstrap.min.css');
     wp_enqueue_style('astra-child-theme-css', get_stylesheet_directory_uri() . '/style.css', array('astra-theme-css'), CHILD_THEME_ASTRA_CHILD_VERSION, 'all');
     wp_enqueue_style('astra-child-theme-sub-css', get_stylesheet_directory_uri() . '/assets/css/substyle.css', array('astra-theme-css'), CHILD_THEME_ASTRA_CHILD_VERSION, 'all');
-
-    wp_enqueue_script('jquery');
-
     wp_enqueue_style('font-awesome-style', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css');
     wp_enqueue_style('swiper-style', 'https://fastly.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css');
 
-    wp_enqueue_script('index-js', get_stylesheet_directory_uri() . '/assets/js/index.js', array(), CHILD_THEME_ASTRA_CHILD_VERSION, true);
+    wp_enqueue_script('jquery');
     wp_enqueue_script('swiper-js', 'https://fastly.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js');
     wp_enqueue_script('dotlottie-js', 'https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js', array(), CHILD_THEME_ASTRA_CHILD_VERSION, true);
     wp_enqueue_script('bootstrap-js', get_stylesheet_directory_uri() . '/assets/vendor/bootstrap/bootstrap.bundle.min.js');
+
+    // 불필요한 자원 호출일 가능성 높음
+    wp_enqueue_script('index-js', get_stylesheet_directory_uri() . '/assets/js/index.js', array(), CHILD_THEME_ASTRA_CHILD_VERSION, true);
 }
 
 add_action('wp_enqueue_scripts', 'child_enqueue_styles', 15);
@@ -50,26 +70,6 @@ function wpdocs_theme_name_scripts()
 }
 add_action('wp_enqueue_scripts', 'wpdocs_theme_name_scripts');
 
-/* add_action('wp_loaded', 'custom_redirect_all_access_including_admin');
-function custom_redirect_all_access_including_admin()
-{
-    $allowed_ips = array('211.202.91.71'); // 허용할 IP 주소를 여기에 입력하세요.
-    $redirect_page_path = '/404/'; // 리디렉션할 페이지의 경로를 여기에 입력하세요.
-    $redirect_page_url = home_url() . $redirect_page_path; // 전체 URL 생성
-
-    // 현재 페이지가 리디렉션 대상 페이지인지 확인
-    if ($_SERVER['REQUEST_URI'] == $redirect_page_path) {
-        return; // 현재 페이지가 리디렉션 대상 페이지이면 리디렉션 수행하지 않음
-    }
-
-    // 현재 접근 IP가 허용 목록에 없으면 리디렉션
-    if (!in_array($_SERVER['REMOTE_ADDR'], $allowed_ips)) {
-        wp_redirect($redirect_page_url);
-        exit;
-    }
-}
- */
-
 /* admin bar 숨김 */
 add_action('init', 'remove_admin_bar');
 function remove_admin_bar()
@@ -83,7 +83,7 @@ function remove_admin_bar()
 include "main_functions.php";
 include "productFuntions.php";
 include "postTopicList.php";
-// include "postSettings.php";
+// include "postSettings.php";  // 불필요한 자원 호출일 가능성 높음
 include "admin/wpPostSelectCategory.php";
 include "wpCustomBlocks.php";
 include "totalSearch.php";
