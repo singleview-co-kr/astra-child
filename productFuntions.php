@@ -158,12 +158,17 @@ function custom_script_load_for_product_page()
     ?>
         <script>
             jQuery(document).ready(function($) {
-                var originalHeight = $('#wv_prod_content').get(0).scrollHeight;
+                if ($("#wv_prod_content").length) {  // The element exists
+                    var originalHeight = $('#wv_prod_content').get(0).scrollHeight;
+                } else {  // The element does not exist
+                    var originalHeight = 0;
+                }
+
                 if (originalHeight > 500) {
                     $('#wv_prod_content').addClass('short');
                 }
 
-                $('#toggle-button a').click(function(e) {
+                $('#toggle-button a').click(function(e) {  // 상세 페이지 펼치기 버튼
                     e.preventDefault();
                     var element = $('#wv_prod_content');
                     if (element.hasClass('short')) {
