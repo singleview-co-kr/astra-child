@@ -9,6 +9,11 @@ Text Domain: astra-child
 Template: astra
 */
 
+/* secure padding for x2board */
+#main {
+    padding: 10px;
+}
+
 .ast-container:not(i) {
     font-family: "Pretendard", Sans-serif;
 }
@@ -37,6 +42,8 @@ p,
 table {
     margin: 0px;
     padding: 0px;
+    /* hide a left border line from x2board list */
+    border: 0px;
 }
 
 ul,
