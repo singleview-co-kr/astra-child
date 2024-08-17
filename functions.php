@@ -104,6 +104,7 @@ function child_enqueue_styles()
     wp_enqueue_style('bootstrap', get_stylesheet_directory_uri() . '/assets/vendor/bootstrap/bootstrap.min.css');
     wp_enqueue_style('astra-child-theme', get_stylesheet_directory_uri() . '/style.css', array('astra-theme-css'), YCX_ASTRA_CHILD_VERSION, 'all');
     wp_enqueue_style('astra-child-theme-sub', get_stylesheet_directory_uri() . '/assets/css/substyle.css', array('astra-theme-css'), YCX_ASTRA_CHILD_VERSION, 'all');
+    wp_enqueue_style('astra-child-theme-global-search-notice', get_stylesheet_directory_uri() . '/assets/css/global_search_notice.css', array('astra-theme-css'), YCX_ASTRA_CHILD_VERSION, 'all');
     wp_enqueue_style('font-awesome-style', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css');
     wp_enqueue_style('swiper-style', 'https://fastly.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css');
 
@@ -148,7 +149,7 @@ include "postTopicList.php";
 // include "postSettings.php";  // 불필요한 자원 호출일 가능성 높음
 include "admin/wpPostSelectCategory.php";
 include "wpCustomBlocks.php";
-include "totalSearch.php";
+include "search.global.php";
 
 
 function custom_products_per_page($query) {
