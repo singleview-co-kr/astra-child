@@ -4,8 +4,12 @@ $o_x2board = get_field('x2board_id');
 $s_csv_query = get_field('csv_query');
 $o_param = new stdClass();
 $o_param->n_posts_per_page = get_field('list_count');
-// error_log(print_r($s_csv_query, true));
-$n_board_id = $o_x2board[0]->ID;
+if( $o_x2board ) {
+	$n_board_id = $o_x2board[0]->ID;
+}
+else {
+	$n_board_id = 0;
+}
 unset($o_x2board);
 
 // load x2board API
@@ -20,7 +24,7 @@ unset($o_param);
 		<p class="sec-label"><?php echo $s_discussion_title != '' ? $s_discussion_title : '이 글과 연관된 Q&A' ?></p>
 		<div id="x2board-qna-list" class="latest-qna-list">
 			<?php if( empty( $a_qna_rst ) ): ?>
-				연관된 자료가 없습니다.
+				연관된 논의가 없습니다.
 			<?php else : ?>
 				<!-- 리스트 시작 -->
 				<?php if (is_admin()) : ?>
