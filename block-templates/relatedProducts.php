@@ -2,7 +2,7 @@
 $products = get_field('product');
 ?>
 
-<div class="wv-custom-block">
+<div class="sv-custom-block">
     <div class="related-product">
         <p class="sec-label">함께 구매하면 좋아요</p>
         <?php if (!empty($products)) { ?>

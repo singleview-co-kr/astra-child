@@ -3,7 +3,7 @@
 $selected_material = get_field('selected_material');
 ?>
 
-<div class="wv-custom-block">
+<div class="sv-custom-block">
     <div class="selected-material">
         <p class="sec-label">준비물</p>
         <?php if (!empty($selected_material)) { ?>

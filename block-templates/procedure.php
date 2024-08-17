@@ -3,7 +3,7 @@ $procedure_title = get_field('procedure_title');
 $procedure = get_field('procedure');
 ?>
 
-<div class="wv-custom-block">
+<div class="sv-custom-block">
     <div class="procedure">
         <p class="sec-label"><?= $procedure_title != '' ? $procedure_title : '과정' ?></p>
         <?php if (!empty($procedure)) { ?>
