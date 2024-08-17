@@ -448,27 +448,54 @@
     margin: 40px 0;
 }
 
-#kboard-qna-list.latest-qna-list .kboard-search{
+#x2board-qna-list.latest-qna-list .x2board-search{
     padding: 0;
 }
-#kboard-qna-list.latest-qna-list .kboard-search form {
+#x2board-qna-list.latest-qna-list .x2board-search form {
     justify-content: flex-end;
     margin-top: -70px;
 }
 
-#kboard-qna-list.latest-qna-list .accordion-item {
+#x2board-qna-list.latest-qna-list .accordion-item {
     background: #F9F9F9;
     border-radius: 20px;
     border: 0;
     margin-bottom: 15px;
 }
-#kboard-qna-list.latest-qna-list .accordion-item .accordion-button {
+#x2board-qna-list.latest-qna-list .accordion-item .accordion-button {
     background: transparent;
     padding: 1rem 1.25rem 1.4rem;
 }
-#kboard-qna-list.latest-qna-list .accordion-item .accordion-body {
+#x2board-qna-list.latest-qna-list .accordion-item .accordion-body {
     background: transparent;
 }
+
+#x2board-qna-list .accordion-item .accordion-button:hover,
+#x2board-qna-list .accordion-item .accordion-button:focus {
+    background: transparent;
+    color: inherit;
+}
+#x2board-qna-list .accordion-item h2{
+    margin: 0;
+}
+#x2board-qna-list .accordion-item button {
+    display: flex;
+    align-items: flex-end;
+    font-weight: bold;
+    border: 0;
+    box-shadow: none;
+}
+#x2board-qna-list .accordion-item button .q {
+    font-size: 24px;
+    font-weight: bold;
+    margin-right: 10px;
+    margin-bottom: -1px;
+}
+#x2board-qna-list .accordion-item .accordion-body {
+    background: #F9F9F9;
+    font-size: 16px;
+}
+
 
 .procedure ul {
     padding: 0;

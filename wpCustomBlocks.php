@@ -51,6 +51,22 @@ function hfm_acf_init_blocks() {
                 ),
             )
         );
+        acf_register_block_type(
+            array(
+                'name'            => 'discussion',
+                'title'           => '[singleview]연관 Q&A',
+                'description'     => '',
+                'category'        => 'widgets',
+                'icon'            => 'admin-comments',
+                'api_version'     => 2,
+                'keywords'        => array('discussion'),
+                'render_template' => 'block-templates/discussion.php',
+                'mode'            => 'preview',
+                'supports'            => array(
+                    'mode' => false,
+                ),
+            )
+        );
     }
     // register_block_type(__DIR__ . '/blocks/procedure_block.json');
 }
