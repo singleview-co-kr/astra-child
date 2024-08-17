@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Astra Child Theme functions and definitions
  *
@@ -8,6 +7,9 @@
  * @package Astra Child
  * @since 1.0.0
  */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;  // Exit if accessed directly.
+}
 
 /**
  * Define Constants
@@ -146,11 +148,10 @@ function remove_admin_bar()
 include "main_functions.php";
 include "productFuntions.php";
 include "postTopicList.php";
-// include "postSettings.php";  // 불필요한 자원 호출일 가능성 높음
 include "admin/wpPostSelectCategory.php";
 include "wpCustomBlocks.php";
 include "search.global.php";
-
+// include "postSettings.php";  // 불필요한 자원 호출일 가능성 높음
 
 function custom_products_per_page($query) {
     if (!is_admin() && is_post_type_archive('product') && $query->is_main_query()) { // 상품 아카이브 페이지에만 적용

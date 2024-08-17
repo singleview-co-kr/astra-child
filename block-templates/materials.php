@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;  // Exit if accessed directly.
+}
 
 $selected_material = get_field('selected_material');
 ?>

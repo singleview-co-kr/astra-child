@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;  // Exit if accessed directly.
+}
 
 add_action('acf/init', 'hfm_acf_init_blocks');
 function hfm_acf_init_blocks() {

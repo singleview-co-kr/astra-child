@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;  // Exit if accessed directly.
+}
+
 $procedure_title = get_field('procedure_title');
 $procedure = get_field('procedure');
 ?>

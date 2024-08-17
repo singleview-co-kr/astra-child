@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;  // Exit if accessed directly.
+}
+
 $s_discussion_title = get_field('discussion_title');
 $o_x2board = get_field('x2board_id');
 $s_csv_query = get_field('csv_query');

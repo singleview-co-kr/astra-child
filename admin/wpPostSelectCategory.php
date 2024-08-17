@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;  // Exit if accessed directly.
+}
+
 add_filter('use_block_editor_for_post', 'disable_gutenberg_on_settings_page', 10, 2);
 
 function disable_gutenberg_on_settings_page($can, $post)

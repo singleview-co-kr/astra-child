@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;  // Exit if accessed directly.
+}
 
 add_shortcode('sv_prod_price', 'sv_prod_price_shortcode');
 function sv_prod_price_shortcode()
