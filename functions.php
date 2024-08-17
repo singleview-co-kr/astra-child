@@ -12,7 +12,7 @@
 /**
  * Define Constants
  */
-define('CHILD_THEME_ASTRA_CHILD_VERSION', '1.0.0');
+define('YCX_ASTRA_CHILD_VERSION', '1.0.0');
 
 
 /* add_action('wp_loaded', 'custom_redirect_all_access_including_admin');
@@ -40,18 +40,18 @@ function custom_redirect_all_access_including_admin() {
 function child_enqueue_styles()
 {
     wp_enqueue_style('bootstrap-css', get_stylesheet_directory_uri() . '/assets/vendor/bootstrap/bootstrap.min.css');
-    wp_enqueue_style('astra-child-theme-css', get_stylesheet_directory_uri() . '/style.css', array('astra-theme-css'), CHILD_THEME_ASTRA_CHILD_VERSION, 'all');
-    wp_enqueue_style('astra-child-theme-sub-css', get_stylesheet_directory_uri() . '/assets/css/substyle.css', array('astra-theme-css'), CHILD_THEME_ASTRA_CHILD_VERSION, 'all');
+    wp_enqueue_style('astra-child-theme-css', get_stylesheet_directory_uri() . '/style.css', array('astra-theme-css'), YCX_ASTRA_CHILD_VERSION, 'all');
+    wp_enqueue_style('astra-child-theme-sub-css', get_stylesheet_directory_uri() . '/assets/css/substyle.css', array('astra-theme-css'), YCX_ASTRA_CHILD_VERSION, 'all');
     wp_enqueue_style('font-awesome-style', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css');
     wp_enqueue_style('swiper-style', 'https://fastly.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css');
 
     wp_enqueue_script('jquery');
     wp_enqueue_script('swiper-js', 'https://fastly.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js');
-    wp_enqueue_script('dotlottie-js', 'https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js', array(), CHILD_THEME_ASTRA_CHILD_VERSION, true);
+    wp_enqueue_script('dotlottie-js', 'https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js', array(), YCX_ASTRA_CHILD_VERSION, true);
     wp_enqueue_script('bootstrap-js', get_stylesheet_directory_uri() . '/assets/vendor/bootstrap/bootstrap.bundle.min.js');
 
     // 불필요한 자원 호출일 가능성 높음
-    wp_enqueue_script('index-js', get_stylesheet_directory_uri() . '/assets/js/index.js', array(), CHILD_THEME_ASTRA_CHILD_VERSION, true);
+    wp_enqueue_script('index-js', get_stylesheet_directory_uri() . '/assets/js/index.js', array(), YCX_ASTRA_CHILD_VERSION, true);
 }
 
 add_action('wp_enqueue_scripts', 'child_enqueue_styles', 15);
