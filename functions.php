@@ -145,6 +145,7 @@ function remove_admin_bar()
 }
 
 require "admin/wp_post_category_select.php";
+require "admin/wp_post_edit.php";
 require "block-templates/wp_custom_block.php";
 require "ux_functions/main_screen.php";
 require "ux_functions/search_global.php";
@@ -160,16 +161,3 @@ function custom_products_per_page($query)
     return $query;
 }
 add_filter('pre_get_posts', 'custom_products_per_page');
-
-/**
- * Let sidebar of post editing UX resizable
- *
- * @return 
- */
-function toast_rs_enqueue()
-{
-    wp_enqueue_script('jquery-ui-resizable');
-    wp_enqueue_script('toast_rs_script', get_stylesheet_directory_uri() . '/assets/vendor/resizable-editor-sidebar/script.js', array('jquery-ui-resizable'), null, true);
-    wp_enqueue_style('toast_rs_style',  get_stylesheet_directory_uri() . '/assets/vendor/resizable-editor-sidebar/style.css');
-}
-add_action('admin_enqueue_scripts', 'toast_rs_enqueue', 20);
