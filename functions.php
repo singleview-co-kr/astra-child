@@ -104,7 +104,7 @@ function custom_redirect_all_access_including_admin() {
 function child_enqueue_styles()
 {
     wp_enqueue_style('bootstrap', get_stylesheet_directory_uri() . '/assets/vendor/bootstrap/bootstrap.min.css');
-    wp_enqueue_style('astra-child-theme', get_stylesheet_directory_uri() . '/style.css', array('astra-theme-css'), YCX_ASTRA_CHILD_VERSION, 'all');
+    wp_enqueue_style('astra-child-theme', get_stylesheet_directory_uri() . '/assets/css/style.css', array('astra-theme-css'), YCX_ASTRA_CHILD_VERSION, 'all');
     wp_enqueue_style('astra-child-theme-sub', get_stylesheet_directory_uri() . '/assets/css/substyle.css', array('astra-theme-css'), YCX_ASTRA_CHILD_VERSION, 'all');
     wp_enqueue_style('astra-child-theme-global-search-notice', get_stylesheet_directory_uri() . '/assets/css/global_search_notice.css', array('astra-theme-css'), YCX_ASTRA_CHILD_VERSION, 'all');
     wp_enqueue_style('font-awesome-style', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css');
@@ -144,13 +144,13 @@ function remove_admin_bar()
     }
 }
 
-require "main_functions.php";
-require "productFuntions.php";
-require "postTopicList.php";
-require "admin/wpPostSelectCategory.php";
-require "wpCustomBlocks.php";
-require "search.global.php";
-// include "postSettings.php";  // 불필요한 자원 호출일 가능성 높음
+require "admin/wp_post_category_select.php";
+require "block-templates/wp_custom_block.php";
+require "ux_functions/main_screen.php";
+require "ux_functions/search_global.php";
+require "ux_functions/wc_product.php";
+require "ux_functions/wp_post_topic_list.php";
+// require "ux_functions/postSettings.php";  // 불필요한 자원 호출일 가능성 높음
 
 function custom_products_per_page($query)
 {

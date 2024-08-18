@@ -1,0 +1,16 @@
+{
+    "name": "procedure",
+    "title": "[wevi]과정",
+    "category" : "widgets",
+    "supports": {
+        "jsx": true,
+        "mode": true 
+    },
+    "acf": {
+        "mode": "edit", 
+        "render_template": "block-templates/procedure.php", 
+        "blockVersion": 2
+    },
+    "icon" : "admin-comments",
+    "align": "full"
+}

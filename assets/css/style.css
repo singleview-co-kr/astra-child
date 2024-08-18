@@ -1,0 +1,122 @@
+/**
+Theme Name: 유한크로락스 KR
+Author: Singleview.co.kr
+Author URI: https://singleview.co.kr
+Description: 
+Version: 1.0.0
+License: Commercial
+Text Domain: astra-child
+Template: astra
+*/
+
+/* secure padding for x2board */
+#main {
+    padding: 10px;
+}
+
+.ast-container:not(i) {
+    font-family: "Pretendard", Sans-serif;
+}
+
+.ast-container {
+    width: 100%;
+    max-width: unset !important;
+}
+
+.ast-separate-container .ast-article-post, .ast-separate-container .ast-article-single{
+    border:0;
+    padding: 0;
+}
+
+body, button, input, select, textarea, .ast-button, .ast-custom-button {
+    font-family: "Pretendard", Sans-serif;
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+h4,
+p,
+table {
+    margin: 0px;
+    padding: 0px;
+    /* hide a left border line from x2board list */
+    border: 0px;
+}
+
+ul,
+ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none
+}
+
+a:hover,
+a:focus {
+    color: initial;
+    opacity: .7;
+}
+
+.pc {
+    display: block !important;
+}
+
+.mobile {
+    display: none !important;
+}
+
+.hide {
+    display: none !important;
+}
+
+.ast-container {
+    flex-direction: column;
+    max-width: unset;
+    margin: 0;
+    padding: 0;
+}
+
+*:focus {
+    outline: none !important;
+}
+
+.ellipsis-1 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
+}
+
+.ellipsis-2 {
+    overflow: hidden;
+    white-space: normal;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: keep-all;
+}
+
+.woocommerce-js h2{
+    margin: 0;
+}
+
+@media screen and (max-width:1024px) {
+    .pc {
+        display: none !important;
+    }
+
+    .mobile {
+        display: block !important;
+    }
+
+    .ast-container {
+        overflow-x: hidden;
+    }
+}
