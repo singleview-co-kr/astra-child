@@ -150,7 +150,7 @@ require "ux_functions/main_screen.php";
 require "ux_functions/search_global.php";
 require "ux_functions/wc_product.php";
 require "ux_functions/wp_post_topic_list.php";
-// require "ux_functions/postSettings.php";  // 불필요한 자원 호출일 가능성 높음
+require "ux_functions/wp_post_single.php";
 
 function custom_products_per_page($query)
 {
