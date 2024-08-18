@@ -1,6 +1,6 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;  // Exit if accessed directly.
+if (! defined('ABSPATH') ) {
+    exit;  // Exit if accessed directly.
 }
 
 $selected_material = get_field('selected_material');
@@ -14,8 +14,8 @@ $selected_material = get_field('selected_material');
                 <?php
                 $cnt = 1;
                 foreach ($selected_material as $item) : ?>
-                    <p><?= $cnt ?>.선택된 항목 : <strong><img src="<?= $item['image']['sizes']['thumbnail'] ?>" alt=""><?php echo $item['title']; ?></strong></p>
-                <?php
+                    <p><?php echo $cnt ?>.선택된 항목 : <strong><img src="<?php echo $item['image']['sizes']['thumbnail'] ?>" alt=""><?php echo $item['title']; ?></strong></p>
+                    <?php
                     $cnt++;
                 endforeach; ?>
             <?php else : ?>
@@ -23,7 +23,7 @@ $selected_material = get_field('selected_material');
                     <?php foreach ($selected_material as $item) : ?>
                         <li>
                             <div class="thumbnail">
-                                <img src="<?= $item['image']['sizes']['large'] ?>" alt="">
+                                <img src="<?php echo $item['image']['sizes']['large'] ?>" alt="">
                             </div>
                             <p class="title"><?php echo $item['title']; ?></p>
                     </li>

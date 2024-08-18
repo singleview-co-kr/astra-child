@@ -5,8 +5,8 @@
  * @author  https://singleview.co.kr/
  * @version 0.0.1
  */
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;  // Exit if accessed directly.
+if (! defined('ABSPATH') ) {
+    exit;  // Exit if accessed directly.
 }
 
 // load x2board API
@@ -16,7 +16,7 @@ add_shortcode('total_search', 'total_search_shortcode');
 function total_search_shortcode()
 {
     ob_start();
-?>
+    ?>
     <div id="total_search">
         <div class="search-form">
             <div class="form-wrap">
@@ -169,7 +169,7 @@ function total_search_shortcode()
             });
         });
     </script>
-<?php
+    <?php
     return ob_get_clean();
 }
 
@@ -240,7 +240,7 @@ function data_fetch()
     // 상품 검색
     $response['product'] = array();
     $products_output = '';
-    if( $products->have_posts() ) {
+    if($products->have_posts() ) {
         while ($products->have_posts()) {
             $products->the_post();
             $product_id = get_the_ID();
@@ -299,7 +299,7 @@ function data_fetch()
     $response['blog']['total'] = $blogs->found_posts;
 
     // 묻고 답하기 검색
-    $a_qna_rst = X2board\Api\get_quick_search( 801, $keyword );
+    $a_qna_rst = X2board\Api\get_quick_search(801, $keyword);
 
     $response['qna'] = array();
     $qna_output = null;
@@ -316,7 +316,7 @@ function data_fetch()
         $qna_output .= "</li>";
     }
     $response['qna']['html'] = $qna_output;
-    $response['qna']['total'] = count( $a_qna_rst );
+    $response['qna']['total'] = count($a_qna_rst);
     unset($a_qna_rst);
     $response['posts_per_page'] = $posts_per_page;
 
@@ -359,10 +359,10 @@ function get_notice_shortcode()
     // 묻고 답하기 검색
     $o_param = new stdClass();
     $o_param->s_date_format = 'Y-m-d';
-    $a_notice_rst = X2board\Api\get_notice( 801, $o_param );
-    unset( $o_param );
+    $a_notice_rst = X2board\Api\get_notice(801, $o_param);
+    unset($o_param);
     ob_start();
-?>
+    ?>
     <div id="ycx-global-notice-latest">
         <table>
             <tbody>
@@ -373,7 +373,7 @@ function get_notice_shortcode()
                             <div class="ycx-global-notice-cut-strings">
                                 <?php echo $o_notice->title?>
                             </div>
-                            <p class="latest-date"><?php echo $o_notice->regdate ?><span class="ycx-global-comments-count">(<?php echo number_format( $o_notice->readed_count ) ?>)</span></p>
+                            <p class="latest-date"><?php echo $o_notice->regdate ?><span class="ycx-global-comments-count">(<?php echo number_format($o_notice->readed_count) ?>)</span></p>
                         </a>
                     </td>
                 </tr>
@@ -381,6 +381,6 @@ function get_notice_shortcode()
             </tbody>
         </table>
     </div>
-<?php
+    <?php
     return ob_get_clean();
 }

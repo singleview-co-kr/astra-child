@@ -1,6 +1,6 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;  // Exit if accessed directly.
+if (! defined('ABSPATH') ) {
+    exit;  // Exit if accessed directly.
 }
 
 function main_slide_shortcode()
@@ -8,23 +8,23 @@ function main_slide_shortcode()
     $query = new WP_Query(['post_type' => 'main_slide', 'posts_per_page' => -1]);
 
     ob_start();
-?>
+    ?>
     <div class="mainBannerSwiper">
         <ul class="swiper-wrapper">
             <?php
             while ($query->have_posts()) :
                 $query->the_post();
                 $mainSlideData = get_fields();
-            ?>
+                ?>
                 <li class="swiper-slide">
                     <div class="bg_wrap">
-                        <img src="<?= $mainSlideData['thumbnail']['url'] ?>" class="pc">
-                        <img src="<?= $mainSlideData['thumbnail_mobile']['url'] ?>" class="mobile">
+                        <img src="<?php echo $mainSlideData['thumbnail']['url'] ?>" class="pc">
+                        <img src="<?php echo $mainSlideData['thumbnail_mobile']['url'] ?>" class="mobile">
                     </div>
                     <div class="text_wrap">
-                        <h3 class="title"><?= nl2br($mainSlideData['title']) ?></h3>
-                        <p class="subtitle"><?= nl2br($mainSlideData['subtitle']) ?></p>
-                        <a href="<?= $mainSlideData['link_url'] ?>" class="btn_st1"><?= $mainSlideData['link_button'] ?></a>
+                        <h3 class="title"><?php echo nl2br($mainSlideData['title']) ?></h3>
+                        <p class="subtitle"><?php echo nl2br($mainSlideData['subtitle']) ?></p>
+                        <a href="<?php echo $mainSlideData['link_url'] ?>" class="btn_st1"><?php echo $mainSlideData['link_button'] ?></a>
                     </div>
                 </li>
             <?php endwhile; ?>
@@ -35,8 +35,8 @@ function main_slide_shortcode()
                     <circle class="circle-bg" r="50" cx="55" cy="55" />
                     <circle class="circle-go" r="50" cx="55" cy="55" />
                 </svg>
-                <button type="button" class="slide-start"><img src="<?= get_stylesheet_directory_uri() ?>/assets/images/ico_play.svg" alt="slide start"></button>
-                <button type="button" class="slide-stop"><img src="<?= get_stylesheet_directory_uri() ?>/assets/images/ico_pause.svg" alt="slide stop"></button>
+                <button type="button" class="slide-start"><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/images/ico_play.svg" alt="slide start"></button>
+                <button type="button" class="slide-stop"><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/images/ico_pause.svg" alt="slide stop"></button>
             </div>
             <div class="pagination"></div>
         </div>
@@ -137,21 +137,23 @@ add_shortcode('main_slide', 'main_slide_shortcode');
 function main_latest_post_shortcode()
 {
     // 특정 카테고리의 글을 추출하는 WP_Query
-    $query = new WP_Query(array(
+    $query = new WP_Query(
+        array(
         'category_name' => 'blog', // 여기에 해당 카테고리의 슬러그를 입력하세요.
         'posts_per_page' => 10, // 출력하고 싶은 글의 수
-    ));
+        )
+    );
 
     ob_start();
 
     // 글 루프 시작
     if ($query->have_posts()) :
-    ?>
+        ?>
         <div class="mainBlogSwiper">
             <div class="swiper-wrapper">
                 <?php
                 while ($query->have_posts()) : $query->the_post();
-                ?>
+                    ?>
                     <div class="swiper-slide">
                         <!-- 글의 태그 출력 -->
                         <?php
@@ -177,17 +179,17 @@ function main_latest_post_shortcode()
                         <!-- 글의 요약 출력 -->
                         <div class="description ellipsis-2"><?php the_excerpt(); ?></div>
 
-                        <a href="<?php the_permalink(); ?>" class="more_btn">View more<img src="<?= get_stylesheet_directory_uri() ?>/assets/images/ico_long_arrow_right.svg" alt="slide next"></a>
+                        <a href="<?php the_permalink(); ?>" class="more_btn">View more<img src="<?php echo get_stylesheet_directory_uri() ?>/assets/images/ico_long_arrow_right.svg" alt="slide next"></a>
                     </div>
-                <?php
+                    <?php
                 endwhile;
                 wp_reset_postdata(); // 쿼리 리셋
                 ?>
             </div>
             <div class="btn-wrap">
-                <button type="button" class="slide-prev"><img src="<?= get_stylesheet_directory_uri() ?>/assets/images/Ico_arrow_left.svg" alt="slide prev"></button>
+                <button type="button" class="slide-prev"><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/images/Ico_arrow_left.svg" alt="slide prev"></button>
                 <div class="pagination"></div>
-                <button type="button" class="slide-next"><img src="<?= get_stylesheet_directory_uri() ?>/assets/images/Ico_arrow_right.svg" alt="slide next"></button>
+                <button type="button" class="slide-next"><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/images/Ico_arrow_right.svg" alt="slide next"></button>
             </div>
         </div>
         <script>
@@ -225,10 +227,10 @@ function main_latest_post_shortcode()
             });
 
         </script>
-    <?php
+        <?php
     else :
-    ?>
-<?php
+        ?>
+        <?php
     endif;
 
     return ob_get_clean();

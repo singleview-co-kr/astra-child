@@ -1,10 +1,11 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;  // Exit if accessed directly.
+if (! defined('ABSPATH') ) {
+    exit;  // Exit if accessed directly.
 }
 
 add_action('acf/init', 'hfm_acf_init_blocks');
-function hfm_acf_init_blocks() {
+function hfm_acf_init_blocks()
+{
     if (function_exists('acf_register_block_type')) {
         acf_register_block_type(
             array(
@@ -74,8 +75,8 @@ function hfm_acf_init_blocks() {
     // register_block_type(__DIR__ . '/blocks/procedure_block.json');
 }
 
-
-function custom_qna_shortcode() {
+function custom_qna_shortcode()
+{
 
     $board_id = 4; // 새로 만든 게시판의 ID값으로 수정해주세요.
     $iframe_id = uniqid();

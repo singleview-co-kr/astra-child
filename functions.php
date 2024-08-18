@@ -5,10 +5,10 @@
  * @link https://developer.wordpress.org/themes/basics/theme-functions/
  *
  * @package Astra Child
- * @since 1.0.0
+ * @since   1.0.0
  */
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;  // Exit if accessed directly.
+if (! defined('ABSPATH') ) {
+    exit;  // Exit if accessed directly.
 }
 
 /**
@@ -144,16 +144,16 @@ function remove_admin_bar()
     }
 }
 
-
-include "main_functions.php";
-include "productFuntions.php";
-include "postTopicList.php";
-include "admin/wpPostSelectCategory.php";
-include "wpCustomBlocks.php";
-include "search.global.php";
+require "main_functions.php";
+require "productFuntions.php";
+require "postTopicList.php";
+require "admin/wpPostSelectCategory.php";
+require "wpCustomBlocks.php";
+require "search.global.php";
 // include "postSettings.php";  // 불필요한 자원 호출일 가능성 높음
 
-function custom_products_per_page($query) {
+function custom_products_per_page($query)
+{
     if (!is_admin() && is_post_type_archive('product') && $query->is_main_query()) { // 상품 아카이브 페이지에만 적용
         $query->set('posts_per_page', 8);
     }
@@ -166,9 +166,10 @@ add_filter('pre_get_posts', 'custom_products_per_page');
  *
  * @return 
  */
-function toast_rs_enqueue(){
-    wp_enqueue_script( 'jquery-ui-resizable');
-    wp_enqueue_script( 'toast_rs_script', get_stylesheet_directory_uri() . '/assets/vendor/resizable-editor-sidebar/script.js', array('jquery-ui-resizable'), null, true);
-    wp_enqueue_style( 'toast_rs_style',  get_stylesheet_directory_uri() . '/assets/vendor/resizable-editor-sidebar/style.css');
+function toast_rs_enqueue()
+{
+    wp_enqueue_script('jquery-ui-resizable');
+    wp_enqueue_script('toast_rs_script', get_stylesheet_directory_uri() . '/assets/vendor/resizable-editor-sidebar/script.js', array('jquery-ui-resizable'), null, true);
+    wp_enqueue_style('toast_rs_style',  get_stylesheet_directory_uri() . '/assets/vendor/resizable-editor-sidebar/style.css');
 }
 add_action('admin_enqueue_scripts', 'toast_rs_enqueue', 20);

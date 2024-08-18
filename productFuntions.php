@@ -1,6 +1,6 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;  // Exit if accessed directly.
+if (! defined('ABSPATH') ) {
+    exit;  // Exit if accessed directly.
 }
 
 add_shortcode('sv_prod_price', 'sv_prod_price_shortcode');
@@ -12,7 +12,7 @@ function sv_prod_price_shortcode()
     $product    = wc_get_product($product_id);
     $volume     = get_field('volume');
 
-    if( is_object( $product ) ){
+    if(is_object($product) ) {
         // $weight     = $product->get_weight();
         $attributes    = $product->get_attributes();
         $sale_price    = $product->get_sale_price();
@@ -26,7 +26,7 @@ function sv_prod_price_shortcode()
     
     $link_setting = get_field('link_setting');
     
-    if(isset($attributes['pa_incense'])){
+    if(isset($attributes['pa_incense'])) {
         $incense_attribute = $attributes['pa_incense'];
         if ($incense_attribute->is_taxonomy()) {
             $values  = wc_get_product_terms($product_id, $incense_attribute->get_name(), array('fields' => 'names'));
@@ -40,24 +40,26 @@ function sv_prod_price_shortcode()
     }
 
     ob_start();
-?>
+    ?>
 
-    <div id="prod_detail" class="<?= wc_price( $sale_price ) != '' ? 'on-sale' : '' ?>">
-        <p class="price"><span class="tit">판매가</span><span class="description"><?= wc_price( $regular_price ) ?></span></p>
-        <p class="sale-price"><span class="tit">할인가</span><span class="description"><?= wc_price( $sale_price ) ?></span></p>
-        <?php if ($incense) : ?><p class=""><span class="tit">향</span><span class="description"><?= esc_html($incense) ?></span></p><?php endif ?>
-        <?php if ($volume) : ?><p class=""><span class="tit">용량</span><span class="description"><?= $volume ?></span></p><?php endif ?>
+    <div id="prod_detail" class="<?php echo wc_price($sale_price) != '' ? 'on-sale' : '' ?>">
+        <p class="price"><span class="tit">판매가</span><span class="description"><?php echo wc_price($regular_price) ?></span></p>
+        <p class="sale-price"><span class="tit">할인가</span><span class="description"><?php echo wc_price($sale_price) ?></span></p>
+        <?php if ($incense) : ?><p class=""><span class="tit">향</span><span class="description"><?php echo esc_html($incense) ?></span></p><?php 
+        endif ?>
+        <?php if ($volume) : ?><p class=""><span class="tit">용량</span><span class="description"><?php echo $volume ?></span></p><?php 
+        endif ?>
     </div>
 
     <?php if (!empty($link_setting)) : ?>
         <div id="prod_link">
             <?php foreach ($link_setting as $link) : ?>
-                <a href="<?= $link['url'] ?>" target="_blank"><?= $link['title'] ?></a>
+                <a href="<?php echo $link['url'] ?>" target="_blank"><?php echo $link['title'] ?></a>
             <?php endforeach ?>
         </div>
     <?php endif ?>
 
-<?php
+    <?php
     return ob_get_clean();
 }
 
@@ -65,10 +67,8 @@ add_shortcode('sv_prod_related_product', 'sv_prod_related_product_shortcode');
 function sv_prod_related_product_shortcode()
 {
     $products = get_field('recommend_product');
-
     ob_start();
-?>
-
+    ?>
     <?php if (!empty($products)) : ?>
         <div class="related-product">
             <div class="productSwiper">
@@ -99,7 +99,7 @@ function sv_prod_related_product_shortcode()
             });
         </script>
     <?php endif ?>
-<?php
+    <?php
     return ob_get_clean();
 }
 
@@ -107,10 +107,8 @@ add_shortcode('sv_prod_related_posts', 'sv_prod_related_posts_shortcode');
 function sv_prod_related_posts_shortcode()
 {
     $posts = get_field('related_post');
-
     ob_start();
-?>
-
+    ?>
     <?php if (!empty($posts)) : ?>
         <div class="related-posts">
             <?php
@@ -126,10 +124,10 @@ function sv_prod_related_posts_shortcode()
                     }
                 }
                 $post_excerpt = apply_filters('the_excerpt', get_post_field('post_excerpt', $post_id));
-                if( $post_excerpt == '' ){
+                if($post_excerpt == '' ) {
                     $post_excerpt = '포스팅 자세히 보기';
                 }
-            ?>
+                ?>
                 <div class="item">
                     <div class="thumbnail">
                         <a href="<?php echo get_permalink($post_id); ?>">
@@ -138,12 +136,12 @@ function sv_prod_related_posts_shortcode()
                     </div>
                     <div class="text-wrap">
                         <?php if (!empty($tags_array)) : ?>
-                            <p class="tag">#<?= implode(' #', $tags_array) ?></p>
+                            <p class="tag">#<?php echo implode(' #', $tags_array) ?></p>
                         <?php endif ?>
                         <a href="<?php echo get_permalink($post_id); ?>">
                             <p class="title ellipsis-1"><?php echo get_the_title($post_id); ?></p>
                         </a>
-                        <div class="description ellipsis-2"><?= $post_excerpt ?></div>
+                        <div class="description ellipsis-2"><?php echo $post_excerpt ?></div>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -161,7 +159,7 @@ function sv_prod_related_discussion_shortcode()
     $s_csv_query = get_field('csv_query');
     $o_param = new stdClass();
     $o_param->n_posts_per_page = get_field('list_count');
-    if( $o_x2board ) {
+    if($o_x2board ) {
         $n_board_id = $o_x2board[0]->ID;
     }
     else {
@@ -170,16 +168,15 @@ function sv_prod_related_discussion_shortcode()
     unset($o_x2board);
 
     // load x2board API
-    require_once X2B_PATH . 'api.php';
+    include_once X2B_PATH . 'api.php';
     // 묻고 답하기 검색
-    $a_qna_rst = X2board\Api\get_quick_search( $n_board_id, $s_csv_query, $o_param );
+    $a_qna_rst = X2board\Api\get_quick_search($n_board_id, $s_csv_query, $o_param);
     unset($o_param);
-
     ob_start();
-?>
+    ?>
     <p class="sec-label"><?php echo $s_discussion_title != '' ? $s_discussion_title : '이 제품과 연관된 Q&A' ?></p>
     <div id="x2board-qna-list" class="latest-qna-list">
-        <?php if( empty( $a_qna_rst ) ): ?>
+        <?php if(empty($a_qna_rst) ) : ?>
             연관된 논의가 없습니다.
         <?php else : ?>
             <!-- 리스트 시작 -->
@@ -212,15 +209,12 @@ function sv_prod_related_discussion_shortcode()
         <?php endif ?>
         <!-- 리스트 끝 -->
     </div>
-    
-<?php
-    return ob_get_clean();
+    <?php return ob_get_clean();
 }
 
 function custom_script_load_for_product_page()
 {
-    if (is_product()) {
-    ?>
+    if (is_product()) { ?>
         <script>
             jQuery(document).ready(function($) {
                 if ($("#sv_prod_content").length) {  // The element exists
@@ -256,15 +250,13 @@ function custom_script_load_for_product_page()
                 });
             });
         </script>
-<?php
-    }
+    <?php }
 }
 add_action('wp_footer', 'custom_script_load_for_product_page');
 
 function custom_script_load_for_shop_page()
 {
-    if (is_shop()) {
-    ?>
+    if (is_shop()) { ?>
         <script>
             jQuery(document).ready(function($) {
 
@@ -302,7 +294,6 @@ function custom_script_load_for_shop_page()
                 }); */
             });
         </script>
-<?php
-    }
+    <?php }
 }
 add_action('wp_footer', 'custom_script_load_for_shop_page');

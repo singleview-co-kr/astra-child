@@ -1,6 +1,6 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;  // Exit if accessed directly.
+if (! defined('ABSPATH') ) {
+    exit;  // Exit if accessed directly.
 }
 
 $products = get_field('product');
@@ -14,8 +14,8 @@ $products = get_field('product');
                 <?php
                 $cnt = 1;
                 foreach ($products as $item) : ?>
-                    <p><?= $cnt ?>.선택된 항목 : <strong><?php echo get_the_title($item->ID); ?></strong></p>
-                <?php
+                    <p><?php echo $cnt ?>.선택된 항목 : <strong><?php echo get_the_title($item->ID); ?></strong></p>
+                    <?php
                     $cnt++;
                 endforeach; ?>
             <?php else : ?>
