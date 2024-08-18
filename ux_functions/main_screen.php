@@ -237,25 +237,23 @@ function main_latest_post_shortcode()
 }
 add_shortcode('main_latest_post', 'main_latest_post_shortcode');
 
+// https://stackoverflow.com/questions/38415499/making-a-list-element-ul-li-mobile-friendly-responsive-in-html-css
 function main_blogtag_shortcode()
 {
-    $query = get_fields(729);
-    $tag = $query['tag'];
+    $a_tag = get_fields(729)['tag'];
     ob_start();
-    foreach ($tag as $tag_id) {
-        // 태그 객체를 가져옴
-        $tag = get_tag($tag_id);
-
-        // 태그 정보가 유효한 경우
-        if ($tag) {
-            // 태그 링크를 가져옴
-            $tag_link = get_tag_link($tag->term_id);
-            echo "<ul class='main_blog_tag'>";
+    echo "<ul class='main_blog_tag'>";
+    foreach ($a_tag as $n_tag_id) {
+        $o_tag = get_tag($n_tag_id);  // 태그 객체를 가져옴
+        if ($o_tag) {  // 태그 정보가 유효한 경우
+            $s_tag_link = get_tag_link($o_tag->term_id);  // 태그 링크를 가져옴
             // 링크가 포함된 태그 제목을 출력
-            echo '<a href="' . esc_url($tag_link) . '">#' . esc_html($tag->name) . '</a>';
-            echo "</ul>";
+            echo '<li><a href="' . esc_url($s_tag_link) . '">#' . esc_html($o_tag->name) . '</a></li>';
         }
     }
+    echo "</ul>";
+    unset($o_tag);
+    unset($a_tag);
     return ob_get_clean();
 }
 add_shortcode('main_blogtag', 'main_blogtag_shortcode');
