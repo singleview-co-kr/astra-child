@@ -111,11 +111,8 @@ function sv_prod_related_posts_shortcode()
     ?>
     <?php if (!empty($posts)) : ?>
         <div class="related-posts">
-            <?php
-            foreach ($posts as $item) :
+            <?php foreach ($posts as $item) :
                 $post_id = $item->ID;
-                $post_title = get_the_title($post_id);
-                $post_thumbnail = get_the_post_thumbnail_url($post_id, 'medium');
                 $post_tags = get_the_tags($post_id);
                 $tags_array = array();
                 if (!empty($post_tags)) {
@@ -123,20 +120,26 @@ function sv_prod_related_posts_shortcode()
                         $tags_array[] = $tag->name; // 태그 이름을 배열에 추가
                     }
                 }
+				unset($post_tags);
                 $post_excerpt = apply_filters('the_excerpt', get_post_field('post_excerpt', $post_id));
                 if($post_excerpt == '' ) {
                     $post_excerpt = '포스팅 자세히 보기';
-                }
-                ?>
+                } ?>
                 <div class="item">
                     <div class="thumbnail">
                         <a href="<?php echo get_permalink($post_id); ?>">
-                            <?php echo get_the_post_thumbnail($post_id, 'medium'); ?>
+							<?php if( has_post_thumbnail($post_id) ) : ?>
+								<?php echo get_the_post_thumbnail($post_id, 'medium'); ?>
+							<?php else: ?>
+								<img src='<?php echo get_stylesheet_directory_uri() ?>/assets/images/thumb_logo_yuhanclorox.jpg'>
+							<?php endif ?>
                         </a>
                     </div>
                     <div class="text-wrap">
                         <?php if (!empty($tags_array)) : ?>
                             <p class="tag">#<?php echo implode(' #', $tags_array) ?></p>
+						<?php else : ?>
+							<p class="tag">#태그 없음</p>
                         <?php endif ?>
                         <a href="<?php echo get_permalink($post_id); ?>">
                             <p class="title ellipsis-1"><?php echo get_the_title($post_id); ?></p>
@@ -145,6 +148,7 @@ function sv_prod_related_posts_shortcode()
                     </div>
                 </div>
             <?php endforeach; ?>
+			<?php unset($post_tags); ?>
         </div>
     <?php endif ?>
     <?php
