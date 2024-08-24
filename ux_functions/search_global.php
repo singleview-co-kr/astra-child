@@ -12,12 +12,12 @@ if (! defined('ABSPATH') ) {
 // load x2board API
 require_once X2B_PATH . 'api.php';
 
-add_shortcode('total_search', 'total_search_shortcode');
-function total_search_shortcode()
+add_shortcode('global_search', 'global_search_shortcode');
+function global_search_shortcode()
 {
     ob_start();
     ?>
-    <div id="total_search">
+    <div id="global_search">
         <div class="search-form">
             <div class="form-wrap">
                 <input type="text" id="search-input" name="keyword" placeholder="검색어를 입력해주세요.">
@@ -88,8 +88,8 @@ function total_search_shortcode()
             $('#search-button').on('click', function() {
                 var keyword = $('#search-input').val();
                 if (keyword == '') {
-                    $('#total_search .tab-content .content ul').html('');
-                    $('#total_search .nav-item button .cnt').text('0');
+                    $('#global_search .tab-content .content ul').html('');
+                    $('#global_search .nav-item button .cnt').text('0');
                 } else {
                     data_fetch(keyword);
                 }
@@ -279,7 +279,14 @@ function data_fetch()
 
             $blogs_output .= "<li>";
             $blogs_output .= "<a href='{$blog_permalink}' class='blog-link'>";
-            $blogs_output .= "<div class='thumbnail'><img src='" . get_the_post_thumbnail_url(get_the_ID(), 'medium') . "'></div>";
+			$blogs_output .= "<div class='post_thumbnail'>";  // change class name to avoid different div column size by li
+			if( has_post_thumbnail() ) {
+				$blogs_output .= "<img src='" . get_the_post_thumbnail_url(get_the_ID(), 'medium') . "'>";
+			}
+			else {
+				$blogs_output .= "<img src='" . get_stylesheet_directory_uri() . "/assets/images/thumb_logo_yuhanclorox.jpg'>";
+			}
+			$blogs_output .= "</div>";
             $blogs_output .= "<div class='text-wrap'>";
             if ($tags) {
                 $blogs_output .= "<p class='tags'>";
@@ -366,18 +373,31 @@ function get_notice_shortcode()
     <div id="ycx-global-notice-latest">
         <table>
             <tbody>
-                <?php foreach( $a_notice_rst as $o_notice ): ?>
-                <tr>
-                    <td class="ycx-global-latest-title">
-                        <a href="<?php echo $o_notice->permalink ?>">
-                            <div class="ycx-global-notice-cut-strings">
-                                <?php echo $o_notice->title?>
-                            </div>
-                            <p class="latest-date"><?php echo $o_notice->regdate ?><span class="ycx-global-comments-count">(<?php echo number_format($o_notice->readed_count) ?>)</span></p>
-                        </a>
-                    </td>
-                </tr>
-                <?php endforeach?>
+				<?php if( count( $a_notice_rst ) ): ?>
+					<?php foreach( $a_notice_rst as $o_notice ): ?>
+					<tr>
+						<td class="ycx-global-latest-title">
+							<a href="<?php echo $o_notice->permalink ?>">
+								<div class="ycx-global-notice-cut-strings">
+									<?php echo $o_notice->title?>
+								</div>
+								<p class="latest-date"><?php echo $o_notice->regdate ?><span class="ycx-global-comments-count">(<?php echo number_format($o_notice->readed_count) ?>)</span></p>
+							</a>
+						</td>
+					</tr>
+					<?php endforeach ?>
+				<?php else: ?>
+					<tr>
+						<td class="ycx-global-latest-title">
+							<a href="#">
+								<div class="ycx-global-notice-cut-strings">
+									공지 사항이 없습니다.
+								</div>
+							</a>
+						</td>
+					</tr>
+				<?php endif ?>
+				
             </tbody>
         </table>
     </div>

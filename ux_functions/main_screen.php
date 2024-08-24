@@ -18,13 +18,13 @@ function main_slide_shortcode()
                 ?>
                 <li class="swiper-slide">
                     <div class="bg_wrap">
-                        <img src="<?php echo $mainSlideData['thumbnail']['url'] ?>" class="pc">
+                        <img src="<?php echo $mainSlideData['thumbnail_pc']['url'] ?>" class="pc">
                         <img src="<?php echo $mainSlideData['thumbnail_mobile']['url'] ?>" class="mobile">
                     </div>
                     <div class="text_wrap">
                         <h3 class="title"><?php echo nl2br($mainSlideData['title']) ?></h3>
                         <p class="subtitle"><?php echo nl2br($mainSlideData['subtitle']) ?></p>
-                        <a href="<?php echo $mainSlideData['link_url'] ?>" class="btn_st1"><?php echo $mainSlideData['link_button'] ?></a>
+                        <a href="<?php echo $mainSlideData['button_url'] ?>" class="btn_st1"><?php echo $mainSlideData['button_label'] ?></a>
                     </div>
                 </li>
             <?php endwhile; ?>
@@ -139,7 +139,7 @@ function main_latest_post_shortcode()
     // 특정 카테고리의 글을 추출하는 WP_Query
     $query = new WP_Query(
         array(
-        'category_name' => 'blog', // 여기에 해당 카테고리의 슬러그를 입력하세요.
+        //'category_name' => 'blog', // 여기에 해당 카테고리의 슬러그를 입력하세요.
         'posts_per_page' => 10, // 출력하고 싶은 글의 수
         )
     );
@@ -147,31 +147,35 @@ function main_latest_post_shortcode()
     ob_start();
 
     // 글 루프 시작
-    if ($query->have_posts()) :
-        ?>
+    if ($query->have_posts()): ?>
         <div class="mainBlogSwiper">
             <div class="swiper-wrapper">
-                <?php
-                while ($query->have_posts()) : $query->the_post();
-                    ?>
+                <?php while ($query->have_posts()) : $query->the_post(); ?>
                     <div class="swiper-slide">
                         <!-- 글의 태그 출력 -->
-                        <?php
-                        $tags = get_the_tags();
-                        if ($tags) : ?>
-                            <div class="post-tags">
-                                <?php foreach ($tags as $tag) : ?>
-                                    <span><a href="<?php echo get_tag_link($tag->term_id); ?>">#<?php echo $tag->name; ?></a></span>
-                                <?php endforeach; ?>
-                            </div>
-                        <?php endif; ?>
-
+                        <?php $tags = get_the_tags(); ?>
+						<div class="post-tags">
+							<?php if ($tags) : 
+								$n_idx = 0;
+								foreach ($tags as $tag) : 
+									$n_idx++; ?>
+									<span><a href="<?php echo get_tag_link($tag->term_id); ?>">#<?php echo $tag->name; ?></a></span>
+									<?php if( $n_idx > 1 ) {
+										break;
+									}
+								endforeach; ?>
+							<?php else : ?>
+								<span class='no_tag_post'>#태그없음</span>
+							<?php endif; ?>
+						</div>
                         <!-- 글의 썸네일 출력 -->
-                        <?php if (has_post_thumbnail()) : ?>
-                            <a href="<?php the_permalink(); ?>" class="thumbnail">
-                                <?php the_post_thumbnail('thumbnail'); ?>
-                            </a>
-                        <?php endif; ?>
+						<a href="<?php the_permalink(); ?>" class="thumbnail">
+							<?php if (has_post_thumbnail()) : ?>
+								<?php the_post_thumbnail('large'); ?>
+							<?php else: ?>
+								<img src="<?php echo get_stylesheet_directory_uri() ?>/assets/images/thumb_logo_yuhanclorox.jpg">
+							<?php endif; ?>
+						</a>
 
                         <!-- 글의 제목과 링크 출력 -->
                         <h3 class="title ellipsis-1"><?php the_title(); ?></h3>
@@ -240,20 +244,35 @@ add_shortcode('main_latest_post', 'main_latest_post_shortcode');
 // https://stackoverflow.com/questions/38415499/making-a-list-element-ul-li-mobile-friendly-responsive-in-html-css
 function main_blogtag_shortcode()
 {
-    $a_tag = get_fields(729)['tag'];
+	$a_converted_tag = array();
+    $a_tag = get_tags();
+    foreach ( $a_tag as $o_single_tag ) {
+        //$tag_link = get_tag_link( $tag->term_id );
+		$o_tmp_tag = new stdClass();
+		$o_tmp_tag->name = $o_single_tag->name;
+		$o_tmp_tag->count = $o_single_tag->count;
+		$a_converted_tag[ $o_single_tag->term_id ] = $o_tmp_tag;
+	}
+	unset($a_tag);
+	usort( $a_converted_tag, "usort_tag_count" );
+	$a_converted_tag = array_slice( $a_converted_tag, 0, 7, true );
+
     ob_start();
     echo "<ul class='main_blog_tag'>";
-    foreach ($a_tag as $n_tag_id) {
-        $o_tag = get_tag($n_tag_id);  // 태그 객체를 가져옴
-        if ($o_tag) {  // 태그 정보가 유효한 경우
-            $s_tag_link = get_tag_link($o_tag->term_id);  // 태그 링크를 가져옴
-            // 링크가 포함된 태그 제목을 출력
-            echo '<li><a href="' . esc_url($s_tag_link) . '">#' . esc_html($o_tag->name) . '</a></li>';
-        }
-    }
+    foreach( $a_converted_tag as $n_tag_id => $o_single_tag ) {
+		$s_tag_link = get_tag_link( $n_tag_id );  // 태그 링크를 가져옴
+		echo '<li><a href="' . esc_url($s_tag_link) . '">#' . esc_html($o_single_tag->name) . '</a></li>';
+	}
     echo "</ul>";
-    unset($o_tag);
-    unset($a_tag);
+    unset($a_converted_tag);
+    unset($o_single_tag);
     return ob_get_clean();
 }
 add_shortcode('main_blogtag', 'main_blogtag_shortcode');
+
+function usort_tag_count($o_first, $o_second) {
+	if( $o_first->count > $o_second->count ) {
+	    return -1;
+	}
+	return 1;
+}

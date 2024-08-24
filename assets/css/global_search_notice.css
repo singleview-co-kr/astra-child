@@ -1,3 +1,140 @@
+button.close-popup {
+    padding: 5px;
+    font-size: 21px;
+    color: #000;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: transparent;
+    box-shadow: none;
+}
+
+#global_search .nav-item button {
+    color: #777777;
+    background: transparent;
+    box-shadow: none;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-right: 5px;
+}
+#global_search .nav-item button.active, #global_search .nav-item button:hover {
+    color: #000;
+    font-weight: 600;
+    box-shadow: 0 3px 6px rgba(0,0,0,15%);
+}
+#global_search .nav-item button .cnt {
+    font-size: 14px;
+    background: var(--e-global-color-accent);
+    color: #fff;
+    padding: 2px 7px;
+    border-radius: 30px;
+    font-weight: 400;
+}
+#global_search .search-form .form-wrap input {
+    font-size: 18px;
+    border: 0;
+    padding: 15px 55px 15px 15px;
+    height: auto;
+}
+#global_search .search-form .form-wrap {
+    border-bottom: 2px solid #000;
+    max-width: 450px;
+    position: relative;
+    margin: 10px 0 40px;
+}
+#global_search .search-form .form-wrap button.search {
+    position: absolute;
+    right: 9px;
+    padding: 7px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    box-shadow: none;
+}
+#global_search .tab-content {
+    padding: 30px 0 0;
+}
+#global_search .tab-content .content ul {
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
+#global_search .tab-content .content ul li a {
+    display: grid;
+    grid-template-columns: 1fr 60%;
+    gap: 20px;
+}
+#global_search .tab-content .content ul li a .thumbnail {
+    background: #F7F7F7;
+    padding: 0;
+    position: relative;
+    padding-bottom: 100%;
+    height: 0;
+}
+#global_search .tab-content .content ul li a .thumbnail img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+#global_search .tab-content .content ul li a .text-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px 0;
+}
+#global_search .tab-content .content ul li a .text-wrap .title {
+    font-size: 19px;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 4px;
+}
+#global_search .tab-content .content ul li a .text-wrap .price, #global_search .tab-content .content ul li a .text-wrap .sale {
+    font-size: 17px;
+    font-weight: 500;
+    color: #000;
+}
+#global_search .tab-content .content ul li.on-sale a .text-wrap .price {
+    font-size: 15px;
+    text-decoration: line-through;
+    color: #A3A3A3;
+}
+#global_search .tab-content .content ul li a .text-wrap .tags {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--e-global-color-accent);
+}
+#global_search .tab-content .content ul li a .text-wrap .description {
+    font-size: 14px;
+    color: #636363;
+}
+#global_search .tab-content .btn-wrap {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+}
+#global_search .tab-content .btn-wrap button.load-more {
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+    background: transparent;
+    border: 1px solid #DDDDDD;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    border-radius: 30px;
+    padding: 1em 2em;
+}
+#global_search .tab-content #search-faq .content ul li a .thumbnail {
+    background: #fff;
+}
+
+
 .ycx-global-notice-cut-strings { width: auto; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; word-wrap: normal; }
 
 #ycx-global-notice-list { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
@@ -65,5 +202,44 @@
     #ycx-global-notice-latest table .ycx-global-latest-title {
         padding-left: 0;
         font-size: 16px;
+    }
+}
+
+@media screen and (max-width:768px) {
+    #global_search .search-form .form-wrap input {
+        font-size: 16px;
+        border: 0;
+        padding: 11px 49px 11px 10px;
+    }
+    #global_search .search-form .form-wrap button.search svg {
+        width: 18px;
+    }
+    #global_search .nav-item button {
+        font-size: 16px;
+        margin-right: 3px;
+    }
+    #global_search .nav-item button .cnt {
+        font-size: 12px;
+        padding: 2px 6px;
+        border-radius: 30px;
+    }
+    #global_search .tab-content .content ul {
+        grid-template-columns: 100%;
+        gap: 30px;
+    }
+    #global_search .tab-content .content ul li a .text-wrap .tags {
+        font-size: 13px;
+    }
+    #global_search .tab-content .content ul li a {
+        grid-template-columns: 1fr 65%;
+        gap: 15px;
+    }
+    #global_search .tab-content .content ul li a .thumbnail {
+        padding-bottom: 0;
+        height: 100%;
+    }
+    #global_search .tab-content .content ul li a .text-wrap .title {
+        font-size: 17px;
+        margin-bottom: 3px;
     }
 }
