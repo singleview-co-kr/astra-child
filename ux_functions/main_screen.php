@@ -249,18 +249,18 @@ function main_blogtag_shortcode()
     foreach ( $a_tag as $o_single_tag ) {
         //$tag_link = get_tag_link( $tag->term_id );
 		$o_tmp_tag = new stdClass();
+		$o_tmp_tag->term_id = $o_single_tag->term_id;
 		$o_tmp_tag->name = $o_single_tag->name;
 		$o_tmp_tag->count = $o_single_tag->count;
-		$a_converted_tag[ $o_single_tag->term_id ] = $o_tmp_tag;
+		$a_converted_tag[] = $o_tmp_tag;
 	}
 	unset($a_tag);
 	usort( $a_converted_tag, "usort_tag_count" );
 	$a_converted_tag = array_slice( $a_converted_tag, 0, 7, true );
-
     ob_start();
     echo "<ul class='main_blog_tag'>";
-    foreach( $a_converted_tag as $n_tag_id => $o_single_tag ) {
-		$s_tag_link = get_tag_link( $n_tag_id );  // 태그 링크를 가져옴
+    foreach( $a_converted_tag as $o_single_tag ) {
+		$s_tag_link = get_tag_link( $o_single_tag->term_id );  // 태그 링크를 가져옴
 		echo '<li><a href="' . esc_url($s_tag_link) . '">#' . esc_html($o_single_tag->name) . '</a></li>';
 	}
     echo "</ul>";
