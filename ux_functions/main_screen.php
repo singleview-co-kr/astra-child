@@ -178,10 +178,10 @@ function main_latest_post_shortcode()
 						</a>
 
                         <!-- 글의 제목과 링크 출력 -->
-                        <h3 class="title ellipsis-1"><?php the_title(); ?></h3>
+                        <h3 class="title ellipsis-1"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
 
                         <!-- 글의 요약 출력 -->
-                        <div class="description ellipsis-2"><?php the_excerpt(); ?></div>
+                        <div class="description ellipsis-2"><a href="<?php the_permalink(); ?>"><?php the_excerpt(); ?></a></div>
 
                         <a href="<?php the_permalink(); ?>" class="more_btn">View more<img src="<?php echo get_stylesheet_directory_uri() ?>/assets/images/ico_long_arrow_right.svg" alt="slide next"></a>
                     </div>

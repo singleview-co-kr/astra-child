@@ -251,7 +251,7 @@
 .mainBlogSwiper .swiper-slide .thumbnail {
     display: block;
     position: relative;
-    padding-bottom: 100%; /* ½æ³×ÀÏ ÀüÃ¼ Ç¥½Ã */
+    padding-bottom: 100%; /* ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ Ç¥ï¿½ï¿½ */
     height: 0;
     width: 100%;
 }
@@ -311,7 +311,7 @@
 .mainBlogSwiper .swiper-slide.empty {
     opacity: 0;
 }
-
+/* 
 #main_blog .ls:after {
     content: "";
     position: absolute;
@@ -332,7 +332,16 @@
     height: 100%;
     width: 999999999999px;
     background-color: #F8F8F8;
+} */
+
+.swiper-slide > h3 > a {
+    color: #000;
 }
+
+.swiper-slide > div.description.ellipsis-2 > a {
+    color: #000;
+}
+
 
 .main_blog_tag {
     display: block;   /* Remove bullet points; allow greater control of positioning */
@@ -357,6 +366,14 @@
     color: #000;
     font-weight: 600;
 } 
+
+#post_topic_description > div > ul {
+    list-style-type : circle;
+}
+
+#post_topic_description > div > ul li {
+    font-size:15px;
+}
 
 /* Show 2 logos per row on medium devices (tablets, phones in landscape) */
 /* 
