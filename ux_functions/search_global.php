@@ -279,7 +279,7 @@ function data_fetch()
 
             $blogs_output .= "<li>";
             $blogs_output .= "<a href='{$blog_permalink}' class='blog-link'>";
-			$blogs_output .= "<div class='post_thumbnail'>";  // change class name to avoid different div column size by li
+			$blogs_output .= "<div class='thumbnail'>";
 			if( has_post_thumbnail() ) {
 				$blogs_output .= "<img src='" . get_the_post_thumbnail_url(get_the_ID(), 'medium') . "'>";
 			}

@@ -60,7 +60,8 @@ button.close-popup {
     padding: 0;
     margin: 0;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    /* grid-template-columns: repeat(3, 1fr); */
+    grid-template-columns: 416px 416px 416px;
     gap: 40px;
 }
 #global_search .tab-content .content ul li a {
