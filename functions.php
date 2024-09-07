@@ -34,6 +34,9 @@ function custom_redirect_all_access_including_admin() {
     }
 }*/
 
+// get [템플릿 변수 설정] page id and set globally
+$n_theme_setup_page_id = get_theme_mod( 'extra_setup_page' );
+
 /**
  * Enqueue styles
  */
@@ -80,7 +83,7 @@ function remove_admin_bar()
     }
 }
 
-require "admin/wp_post_category_select.php";
+require "admin/admin_menu.php";
 require "admin/wp_post_edit.php";
 require "block-templates/wp_custom_block.php";
 require "ux_functions/main_screen.php";
