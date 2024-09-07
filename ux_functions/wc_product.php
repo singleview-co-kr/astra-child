@@ -106,12 +106,15 @@ function sv_prod_related_product_shortcode()
 add_shortcode('sv_prod_related_posts', 'sv_prod_related_posts_shortcode');
 function sv_prod_related_posts_shortcode()
 {
+    global $n_theme_setup_page_id;  // set on functions.php
     $posts = get_field('related_post');
     ob_start();
     ?>
     <?php if (!empty($posts)) : ?>
         <div class="related-posts">
-            <?php foreach ($posts as $item) :
+            <?php 
+            $s_theme_default_thumbnail_url = get_field( 'theme_default_thumbnail', $n_theme_setup_page_id );
+            foreach ($posts as $item) :
                 $post_id = $item->ID;
                 $post_tags = get_the_tags($post_id);
                 $tags_array = array();
@@ -131,7 +134,7 @@ function sv_prod_related_posts_shortcode()
 							<?php if( has_post_thumbnail($post_id) ) : ?>
 								<?php echo get_the_post_thumbnail($post_id, 'medium'); ?>
 							<?php else: ?>
-								<img src='<?php echo get_stylesheet_directory_uri() ?>/assets/images/thumb_logo_yuhanclorox.jpg'>
+								<img src='<?php echo $s_theme_default_thumbnail_url ?>'>
 							<?php endif ?>
                         </a>
                     </div>

@@ -179,6 +179,8 @@ add_action('wp_ajax_nopriv_data_fetch', 'data_fetch');
 function data_fetch()
 {
     global $wpdb;
+    global $n_theme_setup_page_id;  // set on functions.php
+
     $keyword = $_POST['keyword'];
     $response = array();
 
@@ -268,6 +270,8 @@ function data_fetch()
     }
     $response['product']['total'] = $products->found_posts;
 
+    $s_theme_default_thumbnail_url = get_field( 'theme_default_thumbnail', $n_theme_setup_page_id );
+
     // 블로그 검색
     $response['blog'] = array();
     $blogs_output = null;
@@ -284,7 +288,7 @@ function data_fetch()
 				$blogs_output .= "<img src='" . get_the_post_thumbnail_url(get_the_ID(), 'medium') . "'>";
 			}
 			else {
-				$blogs_output .= "<img src='" . get_stylesheet_directory_uri() . "/assets/images/thumb_logo_yuhanclorox.jpg'>";
+				$blogs_output .= "<img src='" . $s_theme_default_thumbnail_url . "'>";
 			}
 			$blogs_output .= "</div>";
             $blogs_output .= "<div class='text-wrap'>";
@@ -306,14 +310,15 @@ function data_fetch()
     $response['blog']['total'] = $blogs->found_posts;
 
     // 묻고 답하기 검색
-    $a_qna_rst = X2board\Api\get_quick_search(801, $keyword);
+    $a_x2board_installed_wp_page_id = get_field( 'global_search_x2b_page_id', $n_theme_setup_page_id );
+    $a_qna_rst = X2board\Api\get_quick_search($a_x2board_installed_wp_page_id[0], $keyword);
 
     $response['qna'] = array();
     $qna_output = null;
     foreach ($a_qna_rst as $o_post) {
         $qna_output .= "<li>";
         $qna_output .= "<a href='" . $o_post->permalink . "'>";
-        $qna_output .= "<div class='thumbnail'><img src='/wp-content/uploads/2024/04/logo2.jpg'></div>";
+        $qna_output .= "<div class='thumbnail'><img src='" . $s_theme_default_thumbnail_url . "'></div>";
         $qna_output .= "<div class='text-wrap'>";
         $qna_output .= "<p class='tags'>" . $o_post->category_title . "</p>";
         $qna_output .= "<p class='title ellipsis-1'>" . $o_post->title . "</p>";
@@ -364,9 +369,13 @@ add_shortcode('sv_get_notice', 'get_notice_shortcode');
 function get_notice_shortcode()
 {
     // 묻고 답하기 검색
+    global $n_theme_setup_page_id;  // set on functions.php
+    $a_x2board_installed_wp_page_id = get_field( 'global_search_x2b_page_id', $n_theme_setup_page_id );
+error_log(print_r('get_notice_shortcode', true));
+
     $o_param = new stdClass();
     $o_param->s_date_format = 'Y-m-d';
-    $a_notice_rst = X2board\Api\get_notice(801, $o_param);
+    $a_notice_rst = X2board\Api\get_notice($a_x2board_installed_wp_page_id[0], $o_param);
     unset($o_param);
     ob_start();
     ?>

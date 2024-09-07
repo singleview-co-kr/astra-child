@@ -8,9 +8,9 @@ function sv_get_post_topic_shortcode()
     if (!wp_script_is('sv-category-js', 'enqueued')) {
         wp_enqueue_script('sv-category-js', get_stylesheet_directory_uri() . '/assets/js/post_topic.js', array(), null, true);
     }
-	$n_post_topic_setup_page_id = 1061;
-    $a_topic_list_upper = get_field('topic_list_upper', $n_post_topic_setup_page_id);
-	$a_topic_list_lower = get_field('topic_list_lower', $n_post_topic_setup_page_id);
+    global $n_theme_setup_page_id;  // set on functions.php
+    $a_topic_list_upper = get_field('topic_list_upper', $n_theme_setup_page_id);
+	$a_topic_list_lower = get_field('topic_list_lower', $n_theme_setup_page_id);
     ob_start();
     if ($a_topic_list_upper) : ?>
         <div class="fw-blog-category blog-category-1">

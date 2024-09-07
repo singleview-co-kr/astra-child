@@ -136,13 +136,17 @@ add_shortcode('main_slide', 'main_slide_shortcode');
 
 function main_latest_post_shortcode()
 {
-    // 특정 카테고리의 글을 추출하는 WP_Query
-    $query = new WP_Query(
+    global $n_theme_setup_page_id;  // set on functions.php
+    $a_category_id = get_field( 'main_latest_post_category_name', $n_theme_setup_page_id );
+    $n_posts_count = get_field( 'main_latest_post_posts_count', $n_theme_setup_page_id );
+    $query = new WP_Query(  // 특정 카테고리의 글을 추출하는 WP_Query
         array(
-        //'category_name' => 'blog', // 여기에 해당 카테고리의 슬러그를 입력하세요.
-        'posts_per_page' => 10, // 출력하고 싶은 글의 수
+        'category__and' => $a_category_id,
+        'posts_per_page' => $n_posts_count ? $n_posts_count : 5,
         )
     );
+
+    $s_theme_default_thumbnail_url = get_field( 'theme_default_thumbnail', $n_theme_setup_page_id );
 
     ob_start();
 
@@ -173,7 +177,7 @@ function main_latest_post_shortcode()
 							<?php if (has_post_thumbnail()) : ?>
 								<?php the_post_thumbnail('large'); ?>
 							<?php else: ?>
-								<img src="<?php echo get_stylesheet_directory_uri() ?>/assets/images/thumb_logo_yuhanclorox.jpg">
+								<img src="<?php echo $s_theme_default_thumbnail_url ?>">
 							<?php endif; ?>
 						</a>
 
@@ -244,10 +248,10 @@ add_shortcode('main_latest_post', 'main_latest_post_shortcode');
 // https://stackoverflow.com/questions/38415499/making-a-list-element-ul-li-mobile-friendly-responsive-in-html-css
 function main_blogtag_shortcode()
 {
+    global $n_theme_setup_page_id;  // set on functions.php
 	$a_converted_tag = array();
     $a_tag = get_tags();
     foreach ( $a_tag as $o_single_tag ) {
-        //$tag_link = get_tag_link( $tag->term_id );
 		$o_tmp_tag = new stdClass();
 		$o_tmp_tag->term_id = $o_single_tag->term_id;
 		$o_tmp_tag->name = $o_single_tag->name;
@@ -256,7 +260,8 @@ function main_blogtag_shortcode()
 	}
 	unset($a_tag);
 	usort( $a_converted_tag, "usort_tag_count" );
-	$a_converted_tag = array_slice( $a_converted_tag, 0, 7, true );
+    $n_tags_count = get_field( 'main_latest_post_tags_count', $n_theme_setup_page_id );
+	$a_converted_tag = array_slice( $a_converted_tag, 0, $n_tags_count ? $n_tags_count : 3, true );
     ob_start();
     echo "<ul class='main_blog_tag'>";
     foreach( $a_converted_tag as $o_single_tag ) {
