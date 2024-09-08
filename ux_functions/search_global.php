@@ -124,6 +124,10 @@ function global_search_shortcode()
                             $('#search-qna .content ul').html('');
                         }
 
+                        if (data.notice.html) {
+                            $('#ycx-global-notice-latest table tbody').html(data.notice.html);
+                        } 
+
                         if (data.product.total > data.posts_per_page) {
                             $('#search-product .load-more').removeClass('hide');
                         }
@@ -332,6 +336,25 @@ function data_fetch()
     unset($a_qna_rst);
     $response['posts_per_page'] = $posts_per_page;
 
+    $a_global_notice_from_x2b = get_field( 'global_notice_from_x2b', $n_theme_setup_page_id );
+    $response['notice'] = array();
+    $notice_output = null;
+    foreach( $a_global_notice_from_x2b as $o_notice ) {
+        $notice_output .= '<tr>';
+        $notice_output .=   '<td class="ycx-global-latest-title">';
+        $notice_output .=       '<a href="' . $o_notice->guid .'">';
+        $notice_output .=           '<div class="ycx-global-notice-cut-strings">';
+        $notice_output .=               $o_notice->post_title;
+        $notice_output .=           '</div>';
+        $notice_output .=           '<p class="latest-date">' . $o_notice->post_modified . '<span class="ycx-global-comments-count">()</span></p>';  // number_format($o_notice->readed_count)
+        $notice_output .=       '</a>';
+        $notice_output .=   '</td>';
+        $notice_output .=  '</tr>';
+    }
+    $response['notice']['html'] = $notice_output;
+    $response['notice']['total'] = count($a_global_notice_from_x2b);
+    unset($a_global_notice_from_x2b);
+
     wp_reset_postdata();
     echo json_encode($response);
     wp_die();
@@ -365,32 +388,32 @@ function search_filter_by_title_only($search, $wp_query)
     return $search;
 }
 
+/*
 add_shortcode('sv_get_notice', 'get_notice_shortcode');
 function get_notice_shortcode()
 {
-    // 묻고 답하기 검색
     global $n_theme_setup_page_id;  // set on functions.php
-    $a_x2board_installed_wp_page_id = get_field( 'global_search_x2b_page_id', $n_theme_setup_page_id );
-error_log(print_r('get_notice_shortcode', true));
+    $a_global_notice_from_x2b = get_field( 'global_notice_from_x2b', $n_theme_setup_page_id );
 
-    $o_param = new stdClass();
-    $o_param->s_date_format = 'Y-m-d';
-    $a_notice_rst = X2board\Api\get_notice($a_x2board_installed_wp_page_id[0], $o_param);
-    unset($o_param);
+    // $a_x2board_installed_wp_page_id = get_field( 'global_search_x2b_page_id', $n_theme_setup_page_id );
+    // $o_param = new stdClass();
+    // $o_param->s_date_format = 'Y-m-d';
+    // $a_notice_rst = X2board\Api\get_notice($a_x2board_installed_wp_page_id[0], $o_param);
+    // unset($o_param);
     ob_start();
     ?>
     <div id="ycx-global-notice-latest">
         <table>
             <tbody>
-				<?php if( count( $a_notice_rst ) ): ?>
-					<?php foreach( $a_notice_rst as $o_notice ): ?>
+				<?php if( count( $a_global_notice_from_x2b ) ): ?>
+					<?php foreach( $a_global_notice_from_x2b as $o_notice ): ?>
 					<tr>
 						<td class="ycx-global-latest-title">
-							<a href="<?php echo $o_notice->permalink ?>">
+							<a href="<?php echo $o_notice->guid ?>">
 								<div class="ycx-global-notice-cut-strings">
-									<?php echo $o_notice->title?>
+									<?php echo $o_notice->post_title?>
 								</div>
-								<p class="latest-date"><?php echo $o_notice->regdate ?><span class="ycx-global-comments-count">(<?php echo number_format($o_notice->readed_count) ?>)</span></p>
+								<p class="latest-date"><?php echo $o_notice->post_modified ?><span class="ycx-global-comments-count">(<?php //echo number_format($o_notice->readed_count) ?>)</span></p>
 							</a>
 						</td>
 					</tr>
@@ -411,5 +434,7 @@ error_log(print_r('get_notice_shortcode', true));
         </table>
     </div>
     <?php
+    unset( $a_global_notice_from_x2b );
     return ob_get_clean();
 }
+*/
