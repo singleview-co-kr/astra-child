@@ -5,29 +5,28 @@ if (! defined('ABSPATH') ) {
 
 function main_slide_shortcode()
 {
-    $query = new WP_Query(['post_type' => 'main_slide', 'posts_per_page' => -1]);
-
+    global $n_theme_setup_page_id;  // set on functions.php
+    $a_main_slide_info = get_field( 'main_slide_info', $n_theme_setup_page_id );
     ob_start();
     ?>
     <div class="mainBannerSwiper">
         <ul class="swiper-wrapper">
             <?php
-            while ($query->have_posts()) :
-                $query->the_post();
-                $mainSlideData = get_fields();
-                ?>
+            foreach ( $a_main_slide_info as $a_single_slide ) :?>
                 <li class="swiper-slide">
                     <div class="bg_wrap">
-                        <img src="<?php echo $mainSlideData['thumbnail_pc']['url'] ?>" class="pc">
-                        <img src="<?php echo $mainSlideData['thumbnail_mobile']['url'] ?>" class="mobile">
+                        <img src="<?php echo $a_single_slide['thumbnail_pc']['url'] ?>" class="pc">
+                        <img src="<?php echo $a_single_slide['thumbnail_mobile']['url'] ?>" class="mobile">
                     </div>
                     <div class="text_wrap">
-                        <h3 class="title"><?php echo nl2br($mainSlideData['title']) ?></h3>
-                        <p class="subtitle"><?php echo nl2br($mainSlideData['subtitle']) ?></p>
-                        <a href="<?php echo $mainSlideData['button_url'] ?>" class="btn_st1"><?php echo $mainSlideData['button_label'] ?></a>
+                        <h3 class="title"><?php echo nl2br($a_single_slide['title']) ?></h3>
+                        <p class="subtitle"><?php echo nl2br($a_single_slide['subtitle']) ?></p>
+                        <a href="<?php echo $a_single_slide['button_url'] ?>" class="btn_st1"><?php echo $a_single_slide['button_label'] ?></a>
                     </div>
                 </li>
-            <?php endwhile; ?>
+            <?php endforeach;
+            unset( $a_single_slide );
+            unset( $a_main_slide_info );?>
         </ul>
         <div class="btn-wrap">
             <div class="progress-round-wrap">
