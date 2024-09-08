@@ -50,19 +50,17 @@ function child_enqueue_styles()
     wp_enqueue_style('swiper-style', 'https://fastly.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css');
 
     wp_enqueue_script('jquery');
-    wp_enqueue_script('swiper-js', 'https://fastly.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js');
-    wp_enqueue_script('dotlottie-js', 'https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js', array(), YCX_ASTRA_CHILD_VERSION, true);
-    wp_enqueue_script('bootstrap-js', get_stylesheet_directory_uri() . '/assets/vendor/bootstrap/bootstrap.bundle.min.js');
-
-    // 불필요한 자원 호출일 가능성 높음
-    wp_enqueue_script('index-js', get_stylesheet_directory_uri() . '/assets/js/index.js', array(), YCX_ASTRA_CHILD_VERSION, true);
+    wp_enqueue_script('swiper', 'https://fastly.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js');
+    wp_enqueue_script('dotlottie', 'https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js', array(), YCX_ASTRA_CHILD_VERSION, true);
+    wp_enqueue_script('bootstrap', get_stylesheet_directory_uri() . '/assets/vendor/bootstrap/bootstrap.bundle.min.js');
+    wp_enqueue_script('global_search', get_stylesheet_directory_uri() . '/assets/js/global_search.js', array(), YCX_ASTRA_CHILD_VERSION, true);
 }
 
 add_action('wp_enqueue_scripts', 'child_enqueue_styles', 15);
 
 function wpdocs_theme_name_scripts()
 {
-    wp_enqueue_script('ajax-js', get_stylesheet_directory_uri() . '/assets/js/ajaxfile.js', array(), '1.0.0', true);
+    wp_enqueue_script('ajax-js', get_stylesheet_directory_uri() . '/assets/js/ajaxfile.js', array(), YCX_ASTRA_CHILD_VERSION, true);
     wp_localize_script(
         'ajax-js',
         'ajax_var',
