@@ -314,8 +314,11 @@ function data_fetch()
     $response['blog']['total'] = $blogs->found_posts;
 
     // 묻고 답하기 검색
-    $a_x2board_installed_wp_page_id = get_field( 'global_search_x2b_page_id', $n_theme_setup_page_id );
-    $a_qna_rst = X2board\Api\get_quick_search($a_x2board_installed_wp_page_id[0], $keyword);
+    $o_param = new stdClass();
+    $o_param->a_board_id = get_field( 'global_search_x2b_page_id', $n_theme_setup_page_id );
+    $o_param->s_query = $keyword;
+    $a_qna_rst = X2board\Api\get_quick_search($o_param);
+    unset( $o_param );
 
     $response['qna'] = array();
     $qna_output = null;
