@@ -74,8 +74,8 @@ function global_search_shortcode()
     </div>
     <script>
         jQuery(document).ready(function($) {
-            jQuery('#btn_global_search_layer_open a').click(function() {  // Prevent aimless ajax call
-                data_fetch(''); 
+            jQuery('#btn_global_search_layer_open a').one( "click", function() {  // one() means enforcing execution once a click
+                data_fetch('');  // Prevent aimless ajax call
             });
 
             $('#search-input').keypress(function(event) {
