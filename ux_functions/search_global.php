@@ -10,6 +10,7 @@ if (! defined('ABSPATH') ) {
 }
 
 // load x2board API
+require_once X2B_PATH . 'includes/classes/cache/CacheFileDisk.class.php';
 require_once X2B_PATH . 'api.php';
 
 add_shortcode('global_search', 'global_search_shortcode');
@@ -188,60 +189,55 @@ function data_fetch()
     $keyword = $_POST['keyword'];
     $response = array();
 
-    // $type = $_POST['type'];
     $page = isset($_POST['page']) ? $_POST['page'] : 1;
     $posts_per_page = 9;
     $offset = ($page - 1) * $posts_per_page;
 
-    if ($keyword == '') {
-        // 상품 검색
-        add_filter('posts_search', 'search_filter_by_title_only', 10, 2);
-        $product_args = array(
-            'post_type' => 'product',
-            'posts_per_page' => $posts_per_page,
-            'offset' => $offset,
-        );
-        // $product_args['offset'] = $offset;
-        $products = new WP_Query($product_args);
-        remove_filter('posts_search', 'search_filter_by_title_only', 10);
-
-        // 블로그 검색
-        add_filter('posts_search', 'search_filter_by_title_only', 10, 2);
-        $blog_args = array(
-            'post_type' => 'post',
-            'posts_per_page' => $posts_per_page,
-            'offset' => $offset,
-        );
-        // $blog_args['offset'] = $offset;
-        $blogs = new WP_Query($blog_args);
-        remove_filter('posts_search', 'search_filter_by_title_only', 10);
+    // 상품 검색
+    $product_args = array(
+        'post_type' => 'product',
+        'posts_per_page' => $posts_per_page,
+        'offset' => $offset,
+    );
+    if( $keyword != '' ) {
+        $product_args['s'] = $keyword;
     }
 
-    if ($keyword != '') {
-        // 상품 검색
+    $o_x2b_cache_handler = new \X2board\Includes\Classes\CacheFileDisk();
+    $o_x2b_cache_handler->set_storage_label( 'theme_wc_product' );
+    $o_x2b_cache_handler->set_cache_key( implode( '_', $product_args ) );
+    $products = $o_x2b_cache_handler->get();
+    if( ! $products ) {  // load db
+// error_log(print_r('load wc product from db', true));
         add_filter('posts_search', 'search_filter_by_title_only', 10, 2);
-        $product_args = array(
-            'post_type' => 'product',
-            'posts_per_page' => $posts_per_page,
-            'offset' => $offset,
-            's' => $keyword
-        );
-        // $product_args['offset'] = $offset;
-        $products = new WP_Query($product_args);
+    // error_log(print_r(implode( '_', $product_args ), true));
+        $products = new WP_Query( $product_args );
         remove_filter('posts_search', 'search_filter_by_title_only', 10);
+        unset( $product_args );
+        $o_x2b_cache_handler->put( $products );
+    }
 
-        // 블로그 검색
+    // 블로그 검색
+    $blog_args = array(
+        'post_type' => 'post',
+        'posts_per_page' => $posts_per_page,
+        'offset' => $offset,
+    );
+    if( $keyword != '' ) {
+        $blog_args['s'] = $keyword;
+    }
+    $o_x2b_cache_handler->set_storage_label( 'theme_wp_post' );
+    $o_x2b_cache_handler->set_cache_key( implode( '_', $blog_args ) );
+    $blogs = $o_x2b_cache_handler->get();
+    if( ! $blogs ) {  // load db
+// error_log(print_r('load wp blogs from db', true));
         add_filter('posts_search', 'search_filter_by_title_only', 10, 2);
-        $blog_args = array(
-            'post_type' => 'post',
-            'posts_per_page' => $posts_per_page,
-            'offset' => $offset,
-            's' => $keyword
-        );
-        // $blog_args['offset'] = $offset;
         $blogs = new WP_Query($blog_args);
         remove_filter('posts_search', 'search_filter_by_title_only', 10);
+        unset( $blog_args );
+        $o_x2b_cache_handler->put( $products );
     }
+    unset( $o_x2b_cache_handler );
 
     // 상품 검색
     $response['product'] = array();
