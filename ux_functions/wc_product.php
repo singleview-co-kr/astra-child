@@ -248,7 +248,7 @@ function custom_script_load_for_product_page()
                     }
                 });
 
-                jQuery(".cr-all-reviews-add-review").on("click", function(t) {
+                jQuery(".cr-all-reviews-add-review").on("click", function(t) {  // hide existing WC review if add new one
                     t.preventDefault();
                     if (0 < jQuery(".cr-all-reviews-shortcode").length) {
                         jQuery(".cr-all-reviews-shortcode").addClass("cr-all-reviews-new-review");
@@ -256,6 +256,11 @@ function custom_script_load_for_product_page()
                     if (0 < jQuery(".cr-reviews-grid").length) {
                         jQuery(".cr-reviews-grid").addClass("cr-reviews-grid-new-review");
                     }
+                });
+
+                jQuery(".cr-review-form-continue").on("click", function(t) {  // refresh the page to show new review if add new one
+                    t.preventDefault();
+                    window.location.reload();
                 });
             });
         </script>
