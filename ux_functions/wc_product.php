@@ -173,12 +173,14 @@ function sv_prod_related_discussion_shortcode()
         $n_board_id = 0;
     }
     unset($o_x2board);
-
     // load x2board API
     include_once X2B_PATH . 'api.php';
     // 묻고 답하기 검색
-    $a_qna_rst = X2board\Api\get_quick_search($n_board_id, $s_csv_query, $o_param);
-    unset($o_param);
+    $o_param = new stdClass();
+    $o_param->a_board_id = array( $n_board_id );
+    $o_param->s_query = $s_csv_query;
+    $a_qna_rst = X2board\Api\get_quick_search($o_param);
+    unset( $o_param );
     ob_start();
     ?>
     <p class="sec-label"><?php echo $s_discussion_title != '' ? $s_discussion_title : '이 제품과 연관된 Q&A' ?></p>
