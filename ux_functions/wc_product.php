@@ -3,6 +3,8 @@ if (! defined('ABSPATH') ) {
     exit;  // Exit if accessed directly.
 }
 
+add_filter('wc_add_to_cart_message_html', '__return_false');
+
 add_shortcode('sv_prod_price', 'sv_prod_price_shortcode');
 function sv_prod_price_shortcode()
 {
@@ -38,7 +40,6 @@ function sv_prod_price_shortcode()
     else {
         $incense = null;
     }
-
     ob_start();
     ?>
 
@@ -51,15 +52,16 @@ function sv_prod_price_shortcode()
         endif ?>
     </div>
 
-    <?php if (!empty($link_setting)) : ?>
+    <?php if (!empty($link_setting)) :  // simulate WC add to cart button to transfer add-to-cart beacon to GA4 ?>
         <div id="prod_link">
-            <?php foreach ($link_setting as $link) : ?>
-                <a href="<?php echo $link['url'] ?>" target="_blank"><?php echo $link['title'] ?></a>
-            <?php endforeach ?>
+            <form class="cart" action="<?php echo get_permalink(); ?>" method="post" enctype="multipart/form-data">
+                <input type="hidden" id="quantity_<?php echo uniqid(); ?>" name="quantity" value="1">
+                <?php foreach ($link_setting as $link) : ?>
+                    <button type="submit" name="add-to-cart" value="<?php echo $product_id ?>" class="single_add_to_cart_button button alt" style="margin-right: 10px;" onclick="window.open('<?php echo $link['url'] ?>', '_blank');"><?php echo $link['title'] ?></button>
+                <?php endforeach ?>
+            </form>
         </div>
-    <?php endif ?>
-
-    <?php
+    <?php endif;
     return ob_get_clean();
 }
 
