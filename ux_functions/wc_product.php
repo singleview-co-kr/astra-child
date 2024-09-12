@@ -3,6 +3,7 @@ if (! defined('ABSPATH') ) {
     exit;  // Exit if accessed directly.
 }
 
+// hide add-to-cart message just after click external market button(which is simulated WC add-to-cart button)
 add_filter('wc_add_to_cart_message_html', '__return_false');
 
 add_shortcode('sv_prod_price', 'sv_prod_price_shortcode');
