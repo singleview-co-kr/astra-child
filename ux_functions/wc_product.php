@@ -9,14 +9,11 @@ add_filter('wc_add_to_cart_message_html', '__return_false');
 add_shortcode('sv_prod_price', 'sv_prod_price_shortcode');
 function sv_prod_price_shortcode()
 {
-    global $product;
-
+    // global $product;
     $product_id = get_the_ID();
     $product    = wc_get_product($product_id);
-    $volume     = get_field('volume');
-
     if(is_object($product) ) {
-        // $weight     = $product->get_weight();
+        // $weight     = $product->get_weight();  // 상품 데이터 > 배송 > 무게(kg)
         $attributes    = $product->get_attributes();
         $sale_price    = $product->get_sale_price();
         $regular_price = $product->get_regular_price();
@@ -26,31 +23,45 @@ function sv_prod_price_shortcode()
         $sale_price    = null;
         $regular_price = null;
     }
-    
+    unset( $product );
+
     $link_setting = get_field('link_setting');
-    
-    if(isset($attributes['pa_incense'])) {
-        $incense_attribute = $attributes['pa_incense'];
-        if ($incense_attribute->is_taxonomy()) {
-            $values  = wc_get_product_terms($product_id, $incense_attribute->get_name(), array('fields' => 'names'));
-            $incense = join(', ', $values);
+
+    if(isset($attributes['pa_volume'])) {
+        $volume_attribute = $attributes['pa_volume'];
+        if ($volume_attribute->is_taxonomy()) {
+            $a_value  = wc_get_product_terms($product_id, $volume_attribute->get_name(), array('fields' => 'names'));
+            $volume = join(', ', $a_value);
+            unset( $a_value );
         } else {
-            $incense = $incense_attribute->get_options();
+            $volume = $volume_attribute->get_options();
         }
     }
     else {
-        $incense = null;
+        $volume = null;
     }
+    if(isset($attributes['pa_scent'])) {
+        $scent_attribute = $attributes['pa_scent'];
+        if ($scent_attribute->is_taxonomy()) {
+            $a_value  = wc_get_product_terms($product_id, $scent_attribute->get_name(), array('fields' => 'names'));
+            $scent = join( ', ', $a_value );
+            unset( $a_value );
+        } else {
+            $scent = $scent_attribute->get_options();
+        }
+    }
+    else {
+        $scent = null;
+    }
+    unset( $attributes );
     ob_start();
     ?>
 
-    <div id="prod_detail" class="<?php echo wc_price($sale_price) != '' ? 'on-sale' : '' ?>">
-        <p class="price"><span class="tit">판매가</span><span class="description"><?php echo wc_price($regular_price) ?></span></p>
-        <p class="sale-price"><span class="tit">할인가</span><span class="description"><?php echo wc_price($sale_price) ?></span></p>
-        <?php if ($incense) : ?><p class=""><span class="tit">향</span><span class="description"><?php echo esc_html($incense) ?></span></p><?php 
-        endif ?>
-        <?php if ($volume) : ?><p class=""><span class="tit">용량</span><span class="description"><?php echo $volume ?></span></p><?php 
-        endif ?>
+    <div id="prod_detail" class="<?php echo $sale_price != '' ? 'on-sale' : '' ?>">
+    <?php if ($regular_price) : ?><p class="price"><span class="tit">판매가</span><span class="description"><?php echo wc_price($regular_price) ?></span></p><?php endif ?>
+        <?php if ($sale_price) : ?><p class="sale-price"><span class="tit">할인가</span><span class="description"><?php echo wc_price($sale_price) ?></span></p><?php endif ?>
+        <?php if ($scent) : ?><p class=""><span class="tit">향</span><span class="description"><?php echo esc_html($scent) ?></span></p><?php endif ?>
+        <?php if ($volume) : ?><p class=""><span class="tit">용량</span><span class="description"><?php echo $volume ?></span></p><?php endif ?>
     </div>
 
     <?php if (!empty($link_setting)) :  // simulate WC add to cart button to transfer add-to-cart beacon to GA4 ?>
@@ -63,6 +74,9 @@ function sv_prod_price_shortcode()
             </form>
         </div>
     <?php endif;
+    unset( $link_setting );
+    unset( $scent );
+    unset( $volume );
     return ob_get_clean();
 }
 
