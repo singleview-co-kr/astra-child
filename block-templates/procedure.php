@@ -22,7 +22,6 @@ $procedure = get_field('procedure');
             <?php else : ?>
                 <ul>
                     <?php
-                    $cnt = 1;
                     foreach ($procedure as $item) : ?>
                         <li>
                             <span class="cnt"><?php echo $cnt?></span>
@@ -39,7 +38,6 @@ $procedure = get_field('procedure');
                             <?php endif ?>
                         </li>
                         <?php
-                        $cnt++;
                     endforeach; ?>
                 </ul>
             <?php endif ?>
