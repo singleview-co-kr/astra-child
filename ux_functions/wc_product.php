@@ -95,9 +95,8 @@ function sv_prod_related_posts_shortcode()
     $posts = get_field('related_post');
     ob_start();
     ?>
-    <?php if (!empty($posts)) : ?>
-        <div class="related-posts">
-            <?php 
+    <div class="related-posts">
+        <?php if (!empty($posts)) :
             $s_theme_default_thumbnail_url = get_field( 'theme_default_thumbnail', $n_theme_setup_page_id );
             foreach ($posts as $item) :
                 $post_id = $item->ID;
@@ -135,12 +134,13 @@ function sv_prod_related_posts_shortcode()
                         <div class="description ellipsis-2"><?php echo $post_excerpt ?></div>
                     </div>
                 </div>
-            <?php endforeach; ?>
-			<?php unset($post_tags); ?>
-        </div>
-    <?php endif ?>
-    <?php
-    return ob_get_clean();
+            <?php endforeach;
+            unset($post_tags);
+        else : ?>
+            연관된 포스팅이 없습니다.
+        <?php endif ?>
+    </div>
+    <?php return ob_get_clean();
 }
 
 add_shortcode('sv_prod_related_discussion', 'sv_prod_related_discussion_shortcode');
