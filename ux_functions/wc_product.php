@@ -259,7 +259,7 @@ add_action('wp_footer', 'custom_script_load_for_product_page');
 
 function custom_script_load_for_shop_page()
 {
-    if (is_shop()) { ?>
+    if (is_shop()) : // run on catalog page only ?>
         <script>
             jQuery(document).ready(function($) {
 
@@ -297,7 +297,7 @@ function custom_script_load_for_shop_page()
                 }); */
             });
         </script>
-    <?php }
+    <?php endif;
 }
 add_action('wp_footer', 'custom_script_load_for_shop_page');
 
