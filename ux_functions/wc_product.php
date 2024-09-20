@@ -3,8 +3,16 @@ if (! defined('ABSPATH') ) {
     exit;  // Exit if accessed directly.
 }
 
+// begin - remove add-to-cart button completely
 // hide add-to-cart message just after click external market button(which is simulated WC add-to-cart button)
 add_filter('wc_add_to_cart_message_html', '__return_false');
+// https://www.cloudways.com/blog/how-to-remove-hide-or-disable-add-to-cart-button-in-woocommerce/
+add_filter( 'woocommerce_is_purchasable', 'disable_add_to_cart_button' );
+function disable_add_to_cart_button( $is_purchasable ) {
+    // You can add conditions here to disable the button for specific products
+    return false; // return false switch the 'Add to Cart' button to 'View more'
+}
+// end - remove add-to-cart button completely
 
 add_shortcode('sv_prod_price', 'sv_prod_price_shortcode');
 function sv_prod_price_shortcode()

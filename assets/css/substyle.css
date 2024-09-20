@@ -862,12 +862,15 @@ button.cr-all-reviews-add-review {
 #product_list ul.products .astra-shop-summary-wrap {
     padding: 20px;
 }
-#product_list ul.products .astra-shop-summary-wrap .star-rating {
+/* hide star rating on the catalog */
+/* #product_list ul.products .astra-shop-summary-wrap .star-rating {
     display: none !important;
-}
-#product_list ul.products .astra-shop-summary-wrap a.button.product_type_simple.add_to_cart_button {
+} */
+/* hide add to cart button on the catalog */
+/* #product_list ul.products .astra-shop-summary-wrap a.button.product_type_simple.add_to_cart_button {
     display: none !important;
-}
+} */
+
 #product_list ul.products li {
     border: 1px solid #E7E7E7;
     border-radius: 10px;
