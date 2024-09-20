@@ -110,7 +110,7 @@ function sv_prod_related_posts_shortcode()
 				unset($post_tags);
                 $post_excerpt = apply_filters('the_excerpt', get_post_field('post_excerpt', $post_id));
                 if($post_excerpt == '' ) {
-                    $post_excerpt = '포스팅 자세히 보기';
+                    $post_excerpt = '이 포스팅의 요약이 없습니다';
                 } ?>
                 <div class="item">
                     <div class="thumbnail">
@@ -147,23 +147,22 @@ add_shortcode('sv_prod_related_discussion', 'sv_prod_related_discussion_shortcod
 function sv_prod_related_discussion_shortcode()
 {
     $s_discussion_title = get_field('discussion_title');
-    $o_x2board = get_field('x2board_id');
-    $s_csv_query = get_field('csv_query');
+
     $o_param = new stdClass();
     $o_param->n_posts_per_page = get_field('list_count');
-    if($o_x2board ) {
-        $n_board_id = $o_x2board[0]->ID;
+    $o_param->s_query = get_field('csv_query');
+    $o_param->a_board_id = array();
+    $a_x2board = get_field('x2board_id');
+    if($a_x2board ) {
+        foreach( $a_x2board as $o_single_board ) {
+            $o_param->a_board_id[] = $o_single_board->ID;
+        }
     }
-    else {
-        $n_board_id = 0;
-    }
-    unset($o_x2board);
+    unset($a_x2board);
+
     // load x2board API
     include_once X2B_PATH . 'api.php';
     // 묻고 답하기 검색
-    $o_param = new stdClass();
-    $o_param->a_board_id = array( $n_board_id );
-    $o_param->s_query = $s_csv_query;
     $a_qna_rst = X2board\Api\get_quick_search($o_param);
     unset( $o_param );
     ob_start();
@@ -203,7 +202,9 @@ function sv_prod_related_discussion_shortcode()
         <?php endif ?>
         <!-- 리스트 끝 -->
     </div>
-    <?php return ob_get_clean();
+    <?php
+    unset( $a_qna_rst );
+    return ob_get_clean();
 }
 
 function custom_script_load_for_product_page()
