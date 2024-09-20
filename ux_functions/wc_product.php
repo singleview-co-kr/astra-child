@@ -208,7 +208,7 @@ function sv_prod_related_discussion_shortcode()
 
 function custom_script_load_for_product_page()
 {
-    if (is_product()) { ?>
+    if (is_product()) : // run on WC single product page only ?>
         <script>
             jQuery(document).ready(function($) {
                 if ($("#sv_prod_content").length) {  // The element exists
@@ -232,7 +232,8 @@ function custom_script_load_for_product_page()
                         $('#toggle-button a').find('svg').css('transform', 'rotate(0deg)');
                     }
                 });
-
+                
+                // Customer Reviews for WooCommerce plugin UX related
                 jQuery(".cr-all-reviews-add-review").on("click", function(t) {  // hide existing WC review if add new one
                     t.preventDefault();
                     if (0 < jQuery(".cr-all-reviews-shortcode").length) {
@@ -247,9 +248,12 @@ function custom_script_load_for_product_page()
                     t.preventDefault();
                     window.location.reload();
                 });
+                // translate message "Sorry, no reviews match your current selections"
+                var o_msg_no_reviews = jQuery(".cr-search-no-reviews");
+                o_msg_no_reviews.text('첫 후기를 작성해 주세요.');
             });
         </script>
-    <?php }
+    <?php endif;
 }
 add_action('wp_footer', 'custom_script_load_for_product_page');
 
