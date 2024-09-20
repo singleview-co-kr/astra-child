@@ -80,46 +80,6 @@ function sv_prod_price_shortcode()
     return ob_get_clean();
 }
 
-add_shortcode('sv_prod_related_product', 'sv_prod_related_product_shortcode');
-function sv_prod_related_product_shortcode()
-{
-    $products = get_field('recommend_product');
-    ob_start();
-    ?>
-    <?php if (!empty($products)) : ?>
-        <div class="related-product">
-            <div class="productSwiper">
-                <div class="swiper-wrapper">
-                    <?php foreach ($products as $item) : ?>
-                        <div class="swiper-slide">
-                            <a href="<?php echo get_permalink($item->ID); ?>">
-                                <div class="thumbnail">
-                                    <?php echo get_the_post_thumbnail($item->ID, 'medium'); ?>
-                                </div>
-                                <p class="title"><?php echo get_the_title($item->ID); ?></p>
-                            </a>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-        </div>
-        <script>
-            const productSwiper = new Swiper('.productSwiper', {
-                slidesPerView: 1.4,
-                spaceBetween: 30,
-                breakpoints: {
-                    768: {
-                        slidesPerView: 4,
-                        spaceBetween: 40,
-                    }
-                },
-            });
-        </script>
-    <?php endif ?>
-    <?php
-    return ob_get_clean();
-}
-
 add_shortcode('sv_prod_related_posts', 'sv_prod_related_posts_shortcode');
 function sv_prod_related_posts_shortcode()
 {
@@ -328,3 +288,45 @@ function custom_script_load_for_shop_page()
     <?php }
 }
 add_action('wp_footer', 'custom_script_load_for_shop_page');
+
+/*
+add_shortcode('sv_prod_related_product', 'sv_prod_related_product_shortcode');
+function sv_prod_related_product_shortcode()
+{
+    $products = get_field('recommend_product');
+    ob_start();
+    ?>
+    <?php if (!empty($products)) : ?>
+        <div class="related-product">
+            <div class="productSwiper">
+                <div class="swiper-wrapper">
+                    <?php foreach ($products as $item) : ?>
+                        <div class="swiper-slide">
+                            <a href="<?php echo get_permalink($item->ID); ?>">
+                                <div class="thumbnail">
+                                    <?php echo get_the_post_thumbnail($item->ID, 'medium'); ?>
+                                </div>
+                                <p class="title"><?php echo get_the_title($item->ID); ?></p>
+                            </a>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+        <script>
+            const productSwiper = new Swiper('.productSwiper', {
+                slidesPerView: 1.4,
+                spaceBetween: 30,
+                breakpoints: {
+                    768: {
+                        slidesPerView: 4,
+                        spaceBetween: 40,
+                    }
+                },
+            });
+        </script>
+    <?php endif ?>
+    <?php
+    return ob_get_clean();
+}
+*/
