@@ -496,6 +496,7 @@
     margin: 0;
     padding: 0;
     display: grid;
+    list-style: none;
     grid-template-columns: repeat(6, 1fr);
     gap: 30px;
     font-size: 18px;
@@ -939,6 +940,7 @@ button.cr-all-reviews-add-review {
     }
 
     .selected-material ul {
+        list-style: none;
         grid-template-columns: repeat(2, 1fr);
     }
     button.close-popup{
