@@ -108,10 +108,9 @@ function sv_prod_related_posts_shortcode()
                     }
                 }
 				unset($post_tags);
-                $post_excerpt = apply_filters('the_excerpt', get_post_field('post_excerpt', $post_id));
-                if($post_excerpt == '' ) {
-                    $post_excerpt = '이 포스팅의 요약이 없습니다';
-                } ?>
+                // $post_excerpt = apply_filters('the_excerpt', get_post_field('post_excerpt', $post_id));
+                // if($post_excerpt == '' ) { $post_excerpt = '이 포스팅의 요약이 없습니다'; } 
+                ?>
                 <div class="item">
                     <div class="thumbnail">
                         <a href="<?php echo get_permalink($post_id); ?>">
@@ -131,7 +130,7 @@ function sv_prod_related_posts_shortcode()
                         <a href="<?php echo get_permalink($post_id); ?>">
                             <p class="title ellipsis-1"><?php echo get_the_title($post_id); ?></p>
                         </a>
-                        <div class="description ellipsis-2"><?php echo $post_excerpt ?></div>
+                        <div class="description ellipsis-2"><?php echo get_the_excerpt( $post_id ) ?></div>
                     </div>
                 </div>
             <?php endforeach;
