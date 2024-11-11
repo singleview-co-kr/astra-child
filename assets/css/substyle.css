@@ -34,7 +34,7 @@
 
 .mainBannerSwiper {
     position: relative;
-    border-radius: 30px;
+    /*border-radius: 30px;*/
     overflow: hidden;
 }
 
@@ -130,7 +130,7 @@
     position: absolute;
     left: 0;
     top: 0;
-    background: #000;
+    /*background: #000;*/
     width: 100%;
     height: 100%;
     opacity: .5;
@@ -155,6 +155,7 @@
     font-size: 50px;
     font-weight: bold;
     color: #fff;
+    -webkit-text-stroke: 1px grey;
 }
 
 .mainBannerSwiper .swiper-slide .text_wrap .subtitle {
@@ -162,6 +163,7 @@
     font-weight: 400;
     color: #ffffffd9;
     margin: 20px 0 30px;
+    -webkit-text-stroke: 1px grey;
 }
 
 .main_prd_wrap .prd_img_wrap {
@@ -994,3 +996,4 @@ button.cr-all-reviews-add-review {
         font-size: 15px;
     }
 }
+
