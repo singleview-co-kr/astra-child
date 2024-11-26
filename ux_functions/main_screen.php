@@ -3,6 +3,11 @@ if (! defined('ABSPATH') ) {
     exit;  // Exit if accessed directly.
 }
 
+if ( ! function_exists('get_field') ) {
+    show_alert_message( 'Advanced Custom Fields PRO is required' );
+    return;
+}
+
 function main_slide_shortcode()
 {
     global $n_theme_setup_page_id;  // set on functions.php
@@ -19,9 +24,9 @@ function main_slide_shortcode()
                         <img src="<?php echo $a_single_slide['thumbnail_mobile']['url'] ?>" class="mobile">
                     </div>
                     <div class="text_wrap">
-                        <h3 class="title"><?php echo nl2br($a_single_slide['title']) ?></h3>
+                        <h3 class="title" style='color: black'><?php echo nl2br($a_single_slide['title']) ?></h3>
                         <p class="subtitle"><?php echo nl2br($a_single_slide['subtitle']) ?></p>
-                        <a href="<?php echo $a_single_slide['button_url'] ?>" class="btn_st1"><?php echo $a_single_slide['button_label'] ?></a>
+                        <a href="<?php echo $a_single_slide['button_url'] ?>" class="btn_st1" <?php if( isset( $a_single_slide['button_border_font_color'] ) ): ?> style='color: <?php echo $a_single_slide['button_border_font_color']?>; border-color: <?php echo $a_single_slide['button_border_font_color']?>;'<?php endif?>><?php echo $a_single_slide['button_label'] ?></a>
                     </div>
                 </li>
             <?php endforeach;
