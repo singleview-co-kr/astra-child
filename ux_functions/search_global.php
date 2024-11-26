@@ -10,8 +10,10 @@ if (! defined('ABSPATH') ) {
 }
 
 // load x2board API
-require_once X2B_PATH . 'includes/classes/cache/CacheFileDisk.class.php';
-require_once X2B_PATH . 'api.php';
+if ( defined( 'X2B_PATH' ) ) {
+    require_once X2B_PATH . 'includes/classes/cache/CacheFileDisk.class.php';
+    require_once X2B_PATH . 'api.php';
+}
 
 add_shortcode('global_search', 'global_search_shortcode');
 function global_search_shortcode()
@@ -43,7 +45,7 @@ function global_search_shortcode()
         <div class="tab-content" id="search-tabContent">
             <div class="tab-pane fade show active" id="search-product" role="tabpanel" aria-labelledby="search-product-tab">
                 <div class="content">
-                    <ul></ul>
+                    <ul style='list-style: none;'></ul>
                 </div>
                 <div class="btn-wrap">
                     <button class="load-more hide" data-type="product" data-page="1">더보기<svg xmlns="http://www.w3.org/2000/svg" width="10.243" height="6.325" viewBox="0 0 10.243 6.325">
@@ -53,7 +55,7 @@ function global_search_shortcode()
             </div>
             <div class="tab-pane fade" id="search-blog" role="tabpanel" aria-labelledby="search-blog-tab">
                 <div class="content">
-                    <ul></ul>
+                    <ul style='list-style: none;'></ul>
                 </div>
                 <div class="btn-wrap">
                     <button class="load-more hide" data-type="blog" data-page="1">더보기<svg xmlns="http://www.w3.org/2000/svg" width="10.243" height="6.325" viewBox="0 0 10.243 6.325">
@@ -63,7 +65,7 @@ function global_search_shortcode()
             </div>
             <div class="tab-pane fade" id="search-qna" role="tabpanel" aria-labelledby="search-qna-tab">
                 <div class="content">
-                    <ul></ul>
+                    <ul style='list-style: none;'></ul>
                 </div>
                 <div class="btn-wrap">
                     <button class="load-more hide" data-type="qna" data-page="1">더보기<svg xmlns="http://www.w3.org/2000/svg" width="10.243" height="6.325" viewBox="0 0 10.243 6.325">
@@ -235,7 +237,7 @@ function data_fetch()
         $blogs = new WP_Query($blog_args);
         remove_filter('posts_search', 'search_filter_by_title_only', 10);
         unset( $blog_args );
-        $o_x2b_cache_handler->put( $products );
+        $o_x2b_cache_handler->put( $blogs );
     }
     unset( $o_x2b_cache_handler );
 
