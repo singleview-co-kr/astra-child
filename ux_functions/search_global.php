@@ -9,12 +9,6 @@ if (! defined('ABSPATH') ) {
     exit;  // Exit if accessed directly.
 }
 
-// load x2board API
-if ( defined( 'X2B_PATH' ) ) {
-    require_once X2B_PATH . 'includes/classes/cache/CacheFileDisk.class.php';
-    require_once X2B_PATH . 'api.php';
-}
-
 add_shortcode('global_search', 'global_search_shortcode');
 function global_search_shortcode()
 {
@@ -32,17 +26,22 @@ function global_search_shortcode()
             </div>
         </div>
         <ul class="nav nav-search mb-3" id="search-tab" role="tablist">
+            <?php if ( function_exists('is_product') ): ?>
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="search-product-tab" data-bs-toggle="pill" data-bs-target="#search-product" type="button" role="tab" aria-controls="search-product" aria-selected="true">상품<span class="cnt">0</span></button>
             </li>
-            <li class="nav-item" role="presentation">
+            <?php endif ?>
+            <li class="nav-item <?php if ( !function_exists('is_product') ): ?>active<?php endif ?>" role="presentation">
                 <button class="nav-link" id="search-blog-tab" data-bs-toggle="pill" data-bs-target="#search-blog" type="button" role="tab" aria-controls="search-blog" aria-selected="false">블로그<span class="cnt">0</span></button>
             </li>
+            <?php if ( defined( 'X2B_PATH' ) ) : ?>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="search-qna-tab" data-bs-toggle="pill" data-bs-target="#search-qna" type="button" role="tab" aria-controls="search-qna" aria-selected="false">묻고 답하기<span class="cnt">0</span></button>
             </li>
+            <?php endif ?>
         </ul>
         <div class="tab-content" id="search-tabContent">
+            <?php if ( function_exists('is_product') ): ?>
             <div class="tab-pane fade show active" id="search-product" role="tabpanel" aria-labelledby="search-product-tab">
                 <div class="content">
                     <ul style='list-style: none;'></ul>
@@ -53,7 +52,8 @@ function global_search_shortcode()
                         </svg></button>
                 </div>
             </div>
-            <div class="tab-pane fade" id="search-blog" role="tabpanel" aria-labelledby="search-blog-tab">
+            <?php endif ?>
+            <div class="tab-pane fade <?php if ( !function_exists('is_product') ): ?>show active<?php endif ?>" id="search-blog" role="tabpanel" aria-labelledby="search-blog-tab">
                 <div class="content">
                     <ul style='list-style: none;'></ul>
                 </div>
@@ -63,6 +63,7 @@ function global_search_shortcode()
                         </svg></button>
                 </div>
             </div>
+            <?php if ( defined( 'X2B_PATH' ) ) : ?>
             <div class="tab-pane fade" id="search-qna" role="tabpanel" aria-labelledby="search-qna-tab">
                 <div class="content">
                     <ul style='list-style: none;'></ul>
@@ -73,6 +74,7 @@ function global_search_shortcode()
                         </svg></button>
                 </div>
             </div>
+            <?php endif ?>
         </div>
     </div>
     <script>
@@ -108,38 +110,50 @@ function global_search_shortcode()
                     },
                     success: function(response) {
                         var data = JSON.parse(response);
+
+                        <?php if ( function_exists('is_product') ): ?>
                         $('#search-product-tab .cnt').text(data.product.total);
                         if (data.product.html) {
                             $('#search-product .content ul').html(data.product.html);
                         } else {
                             $('#search-product .content ul').html('');
                         }
+                        <?php endif ?>
                         $('#search-blog-tab .cnt').text(data.blog.total);
                         if (data.blog.html) {
                             $('#search-blog .content ul').html(data.blog.html);
                         } else {
                             $('#search-blog .content ul').html('');
                         }
+
+                        <?php if ( defined( 'X2B_PATH' ) ): ?>
                         $('#search-qna-tab .cnt').text(data.qna.total);
                         if (data.qna.html) {
                             $('#search-qna .content ul').html(data.qna.html);
                         } else {
                             $('#search-qna .content ul').html('');
                         }
+                        <?php endif ?>
 
                         if (data.notice.html) {
                             $('#ycx-global-notice-latest table tbody').html(data.notice.html);
                         } 
 
+                        <?php if ( function_exists('is_product') ): ?>
                         if (data.product.total > data.posts_per_page) {
                             $('#search-product .load-more').removeClass('hide');
                         }
+                        <?php endif ?>
+
                         if (data.blog.total > data.posts_per_page) {
                             $('#search-blog .load-more').removeClass('hide');
                         }
+
+                        <?php if ( defined( 'X2B_PATH' ) ): ?>
                         if (data.qna.total > data.posts_per_page) {
                             $('#search-qna .load-more').removeClass('hide');
                         }
+                        <?php endif ?>
                     }
                 });
             }
@@ -205,7 +219,7 @@ function data_fetch()
         $product_args['s'] = $keyword;
     }
 
-    $o_x2b_cache_handler = new \X2board\Includes\Classes\CacheFileDisk();
+    $o_x2b_cache_handler = new \CacheFileDisk();
     $o_x2b_cache_handler->set_storage_label( 'theme_wc_product' );
     $o_x2b_cache_handler->set_cache_key( implode( '_', $product_args ) );
     $products = $o_x2b_cache_handler->get();
@@ -312,49 +326,58 @@ function data_fetch()
     $response['blog']['total'] = $blogs->found_posts;
 
     // 묻고 답하기 검색
-    $o_param = new stdClass();
-    $o_param->a_board_id = get_field( 'global_search_x2b_page_id', $n_theme_setup_page_id );
-    $o_param->s_query = $keyword;
-    $a_qna_rst = X2board\Api\get_quick_search($o_param);
-    unset( $o_param );
+    // load x2board API
+    if ( defined( 'X2B_PATH' ) ) {
+        require_once X2B_PATH . 'api.php';
+        $o_param = new stdClass();
+        $o_param->a_board_id = get_field( 'global_search_x2b_page_id', $n_theme_setup_page_id );
+        $o_param->s_query = $keyword;
+        $a_qna_rst = X2board\Api\get_quick_search($o_param);
+        unset( $o_param );
 
-    $response['qna'] = array();
-    $qna_output = null;
-    foreach ($a_qna_rst as $o_post) {
-        $qna_output .= "<li>";
-        $qna_output .= "<a href='" . $o_post->permalink . "'>";
-        $qna_output .= "<div class='thumbnail'><img src='" . $s_theme_default_thumbnail_url . "'></div>";
-        $qna_output .= "<div class='text-wrap'>";
-        $qna_output .= "<p class='tags'>" . $o_post->category_title . "</p>";
-        $qna_output .= "<p class='title ellipsis-1'>" . $o_post->title . "</p>";
-        $qna_output .= "<p class='description ellipsis-2'>" . $o_post->content . "</p>";
-        $qna_output .= "</div>";
-        $qna_output .= "</a>";
-        $qna_output .= "</li>";
+        $response['qna'] = array();
+        $qna_output = null;
+        foreach ($a_qna_rst as $o_post) {
+            $qna_output .= "<li>";
+            $qna_output .= "<a href='" . $o_post->permalink . "'>";
+            $qna_output .= "<div class='thumbnail'><img src='" . $s_theme_default_thumbnail_url . "'></div>";
+            $qna_output .= "<div class='text-wrap'>";
+            $qna_output .= "<p class='tags'>" . $o_post->category_title . "</p>";
+            $qna_output .= "<p class='title ellipsis-1'>" . $o_post->title . "</p>";
+            $qna_output .= "<p class='description ellipsis-2'>" . $o_post->content . "</p>";
+            $qna_output .= "</div>";
+            $qna_output .= "</a>";
+            $qna_output .= "</li>";
+        }
+        $response['qna']['html'] = $qna_output;
+        $response['qna']['total'] = count($a_qna_rst);
+        unset($a_qna_rst);
     }
-    $response['qna']['html'] = $qna_output;
-    $response['qna']['total'] = count($a_qna_rst);
-    unset($a_qna_rst);
     $response['posts_per_page'] = $posts_per_page;
 
-    $a_global_notice_from_x2b = get_field( 'global_notice_from_x2b', $n_theme_setup_page_id );
     $response['notice'] = array();
-    $notice_output = null;
-    foreach( $a_global_notice_from_x2b as $o_notice ) {
-        $notice_output .= '<tr>';
-        $notice_output .=   '<td class="ycx-global-latest-title">';
-        $notice_output .=       '<a href="' . $o_notice->guid .'">';
-        $notice_output .=           '<div class="ycx-global-notice-cut-strings">';
-        $notice_output .=               $o_notice->post_title;
-        $notice_output .=           '</div>';
-        $notice_output .=           '<p class="latest-date">' . $o_notice->post_modified . '<span class="ycx-global-comments-count">()</span></p>';  // number_format($o_notice->readed_count)
-        $notice_output .=       '</a>';
-        $notice_output .=   '</td>';
-        $notice_output .=  '</tr>';
+    $a_global_notice_from_x2b = get_field( 'global_notice_from_x2b', $n_theme_setup_page_id );
+    if( is_null( $a_global_notice_from_x2b ) ) {
+        $response['notice']['html'] = null;
+        $response['notice']['total'] = 0;
+    } else {
+        $notice_output = null;
+        foreach( $a_global_notice_from_x2b as $o_notice ) {
+            $notice_output .= '<tr>';
+            $notice_output .=   '<td class="ycx-global-latest-title">';
+            $notice_output .=       '<a href="' . $o_notice->guid .'">';
+            $notice_output .=           '<div class="ycx-global-notice-cut-strings">';
+            $notice_output .=               $o_notice->post_title;
+            $notice_output .=           '</div>';
+            $notice_output .=           '<p class="latest-date">' . $o_notice->post_modified . '<span class="ycx-global-comments-count">()</span></p>';  // number_format($o_notice->readed_count)
+            $notice_output .=       '</a>';
+            $notice_output .=   '</td>';
+            $notice_output .=  '</tr>';
+        }
+        $response['notice']['html'] = $notice_output;
+        $response['notice']['total'] = count($a_global_notice_from_x2b);
+        unset($a_global_notice_from_x2b);
     }
-    $response['notice']['html'] = $notice_output;
-    $response['notice']['total'] = count($a_global_notice_from_x2b);
-    unset($a_global_notice_from_x2b);
 
     wp_reset_postdata();
     echo json_encode($response);

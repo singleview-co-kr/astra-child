@@ -208,7 +208,7 @@ function sv_prod_related_discussion_shortcode()
 
 function custom_script_load_for_product_page()
 {
-    if (is_product()) : // run on WC single product page only ?>
+    if ( function_exists('is_product') && is_product()) : // run on WC single product page only ?>
         <script>
             jQuery(document).ready(function($) {
                 if ($("#sv_prod_content").length) {  // The element exists
@@ -259,7 +259,7 @@ add_action('wp_footer', 'custom_script_load_for_product_page');
 
 function custom_script_load_for_shop_page()
 {
-    if (is_shop()) : // run on catalog page only ?>
+    if ( function_exists('is_shop') && is_shop()) : // run on catalog page only ?>
         <script>
             jQuery(document).ready(function($) {
 

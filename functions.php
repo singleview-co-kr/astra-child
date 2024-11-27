@@ -34,6 +34,7 @@ function custom_redirect_all_access_including_admin() {
     }
 }*/
 
+// 모양 -> 사용자 정의 -> Extra setup
 // get [템플릿 변수 설정] page id and set globally
 $n_theme_setup_page_id = get_theme_mod( 'extra_setup_page' );
 
@@ -84,6 +85,7 @@ function remove_admin_bar()
 require "admin/admin_menu.php";
 require "admin/wp_post_edit.php";
 require "block-templates/wp_custom_block.php";
+require "cache/CacheFileDisk.class.php";
 require "ux_functions/main_screen.php";
 require "ux_functions/search_global.php";
 require "ux_functions/wc_product.php";
