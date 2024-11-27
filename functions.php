@@ -14,7 +14,7 @@ if (! defined('ABSPATH') ) {
 /**
  * Define Constants
  */
-define('YCX_ASTRA_CHILD_VERSION', '1.0.0');
+define('YCX_ASTRA_CHILD_VERSION', '1.0.1');
 
 /* add_action('wp_loaded', 'custom_redirect_all_access_including_admin');
 function custom_redirect_all_access_including_admin() {
@@ -38,6 +38,33 @@ function custom_redirect_all_access_including_admin() {
 // get [템플릿 변수 설정] page id and set globally
 $n_theme_setup_page_id = get_theme_mod( 'extra_setup_page' );
 
+// show alert if something missed or wrong
+function show_alert_message( $message ) {
+	if ( is_wp_error( $message ) ) {
+		if ( $message->get_error_data() && is_string( $message->get_error_data() ) ) {
+			$message = $message->get_error_message() . ': ' . $message->get_error_data();
+		} else {
+			$message = $message->get_error_message();
+		}
+	}
+?>
+    <script>
+        alert( '<?php echo $message ?>' );
+    </script>
+<?php
+	wp_ob_end_flush_all();
+	flush();
+}
+
+function custom_mime_types( $mimes ) {
+    $mimes['woff'] = 'font/woff';
+    // $mimes['otf'] = 'font/otf';
+    // $mimes['ttf'] = 'font/ttf';
+    // $mimes['woff2'] = 'font/woff2';
+    return $mimes;
+}
+add_filter('upload_mimes', 'custom_mime_types');
+
 /**
  * Enqueue styles
  */
@@ -56,7 +83,6 @@ function child_enqueue_styles()
     wp_enqueue_script('bootstrap', get_stylesheet_directory_uri() . '/assets/vendor/bootstrap/bootstrap.bundle.min.js');
     wp_enqueue_script('global_search', get_stylesheet_directory_uri() . '/assets/js/global_search.js', array(), YCX_ASTRA_CHILD_VERSION, true);
 }
-
 add_action('wp_enqueue_scripts', 'child_enqueue_styles', 15);
 
 function wpdocs_theme_name_scripts()
