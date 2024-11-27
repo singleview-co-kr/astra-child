@@ -32,6 +32,14 @@ function sv_get_post_topic_shortcode()
                 <div class="loading"><lottie-player src="https://lottie.host/d9e36223-6d1e-4b68-82e1-29bd9e817b9f/FjXzm2rXWa.json" background="##ffffff" speed="1" style="width: 120px; height: 120px" loop autoplay direction="1" mode="normal"></lottie-player></div>
             </div>
         </div>
+    <?php else: ?>
+        <div class="fw-blog-category blog-category-1">
+            <div class="category-tabs">
+                <div class="category-tabs-wrap">
+                topic_list_upper ACF 변수를 생성해 주세요.
+                </div>
+            </div>
+        </div>
     <?php endif;
 	unset($a_topic_list_upper);
     if ($a_topic_list_lower) : ?>
@@ -52,6 +60,14 @@ function sv_get_post_topic_shortcode()
             <div class="category-content">
                 <div class="blogCategorySwiper"></div>
                 <div class="loading"><lottie-player src="https://lottie.host/d9e36223-6d1e-4b68-82e1-29bd9e817b9f/FjXzm2rXWa.json" background="##ffffff" speed="1" style="width: 120px; height: 120px" loop autoplay direction="1" mode="normal"></lottie-player></div>
+            </div>
+        </div>
+     <?php else: ?>
+        <div class="fw-blog-category blog-category-2">
+            <div class="category-tabs">
+                <div class="category-tabs-wrap">
+                topic_list_lower ACF 변수를 생성해 주세요.
+                </div>
             </div>
         </div>
     <?php endif;
