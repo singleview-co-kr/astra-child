@@ -212,6 +212,7 @@ function data_fetch()
     // 상품 검색
     $product_args = array(
         'post_type' => 'product',
+        'post_status' => 'publish',
         'posts_per_page' => $posts_per_page,
         'offset' => $offset,
     );
@@ -236,6 +237,7 @@ function data_fetch()
     // 블로그 검색
     $blog_args = array(
         'post_type' => 'post',
+        'post_status' => 'publish',
         'posts_per_page' => $posts_per_page,
         'offset' => $offset,
     );

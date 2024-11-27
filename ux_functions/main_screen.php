@@ -145,6 +145,7 @@ function main_latest_post_shortcode()
     $n_posts_count = get_field( 'main_latest_post_posts_count', $n_theme_setup_page_id );
     $query = new WP_Query(  // 특정 카테고리의 글을 추출하는 WP_Query
         array(
+        'post_status' => 'publish',
         'category__in' => $a_category_id,
         'posts_per_page' => $n_posts_count ? $n_posts_count : 5,
         )
