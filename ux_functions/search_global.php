@@ -230,9 +230,9 @@ function data_fetch()
     // error_log(print_r(implode( '_', $product_args ), true));
         $products = new WP_Query( $product_args );
         remove_filter('posts_search', 'search_filter_by_title_only', 10);
-        unset( $product_args );
         $o_x2b_cache_handler->put( $products );
     }
+    unset( $product_args );
 
     // 블로그 검색
     $blog_args = array(
@@ -252,9 +252,9 @@ function data_fetch()
         add_filter('posts_search', 'search_filter_by_title_only', 10, 2);
         $blogs = new WP_Query($blog_args);
         remove_filter('posts_search', 'search_filter_by_title_only', 10);
-        unset( $blog_args );
         $o_x2b_cache_handler->put( $blogs );
     }
+    unset( $blog_args );
     unset( $o_x2b_cache_handler );
 
     // 상품 검색

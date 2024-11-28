@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 if ( ! defined( 'ASTRA_CHILD_CACHE_PATH' ) ) {
-	define( 'ASTRA_CHILD_CACHE_PATH', 'astra_chile' . DIRECTORY_SEPARATOR . 'cache' );
+	define( 'ASTRA_CHILD_CACHE_PATH', end( explode( DIRECTORY_SEPARATOR, get_stylesheet_directory() ) ) . DIRECTORY_SEPARATOR . 'cache' );
 }
 
 class CacheFileDisk {
