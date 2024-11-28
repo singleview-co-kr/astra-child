@@ -143,16 +143,24 @@ function main_latest_post_shortcode()
     global $n_theme_setup_page_id;  // set on functions.php
     $a_category_id = get_field( 'main_latest_post_category_name', $n_theme_setup_page_id );
     $n_posts_count = get_field( 'main_latest_post_posts_count', $n_theme_setup_page_id );
-    $query = new WP_Query(  // 특정 카테고리의 글을 추출하는 WP_Query
-        array(
+    $s_orderby = get_field( 'main_latest_post_orderby', $n_theme_setup_page_id );
+    
+    $a_query_args = array(
         'post_status' => 'publish',
         'category__in' => $a_category_id,
         'posts_per_page' => $n_posts_count ? $n_posts_count : 5,
-        )
     );
+    $s_orderby = get_field( 'main_latest_post_orderby', $n_theme_setup_page_id );
+    if( $s_orderby ) {
+        $a_query_args[ 'orderby' ] = $s_orderby;
+    }
+    
+    $query = new WP_Query(  // 특정 카테고리의 글을 추출하는 WP_Query
+        $a_query_args
+    );
+    unset( $a_query_args );
 
     $s_theme_default_thumbnail_url = get_field( 'theme_default_thumbnail', $n_theme_setup_page_id );
-
     ob_start();
 
     // 글 루프 시작
