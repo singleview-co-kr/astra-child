@@ -145,29 +145,40 @@ function main_latest_post_shortcode()
     $n_posts_count = get_field( 'main_latest_post_posts_count', $n_theme_setup_page_id );
     $s_orderby = get_field( 'main_latest_post_orderby', $n_theme_setup_page_id );
     
-    $a_query_args = array(
+    $a_wp_carousel_args = array(
         'post_status' => 'publish',
         'category__in' => $a_category_id,
         'posts_per_page' => $n_posts_count ? $n_posts_count : 5,
     );
     $s_orderby = get_field( 'main_latest_post_orderby', $n_theme_setup_page_id );
     if( $s_orderby ) {
-        $a_query_args[ 'orderby' ] = $s_orderby;
+        $a_wp_carousel_args[ 'orderby' ] = $s_orderby;
     }
-    
-    $query = new WP_Query(  // 특정 카테고리의 글을 추출하는 WP_Query
-        $a_query_args
-    );
-    unset( $a_query_args );
+
+
+    $o_x2b_cache_handler = new \CacheFileDisk();
+    $o_x2b_cache_handler->set_storage_label( 'theme_wp_post_main_carousel' );
+    $o_x2b_cache_handler->set_cache_key( implode( '_', $a_wp_carousel_args ) );
+    $wp_post_carousel = $o_x2b_cache_handler->get();
+    if( ! $wp_post_carousel ) {  // load db
+// error_log(print_r('load wc product from db', true));
+        $wp_post_carousel = new WP_Query(  // 특정 카테고리의 글을 추출하는 WP_Query
+            $a_wp_carousel_args
+        );
+        $o_x2b_cache_handler->put( $wp_post_carousel );
+    }
+
+    unset( $a_wp_carousel_args );
+    unset( $o_x2b_cache_handler );
 
     $s_theme_default_thumbnail_url = get_field( 'theme_default_thumbnail', $n_theme_setup_page_id );
     ob_start();
 
     // 글 루프 시작
-    if ($query->have_posts()): ?>
+    if ($wp_post_carousel->have_posts()): ?>
         <div class="mainBlogSwiper">
             <div class="swiper-wrapper">
-                <?php while ($query->have_posts()) : $query->the_post(); ?>
+                <?php while ($wp_post_carousel->have_posts()) : $wp_post_carousel->the_post(); ?>
                     <div class="swiper-slide">
                         <!-- 글의 태그 출력 -->
                         <?php $tags = get_the_tags(); ?>
@@ -248,12 +259,8 @@ function main_latest_post_shortcode()
             });
 
         </script>
-        <?php
-    else :
-        ?>
-        <?php
-    endif;
-
+    <?php endif;
+    unset( $wp_post_carousel );
     return ob_get_clean();
 }
 add_shortcode('main_latest_post', 'main_latest_post_shortcode');
