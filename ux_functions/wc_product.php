@@ -15,11 +15,9 @@ function disable_add_to_cart_button( $is_purchasable ) {
 // end - remove add-to-cart button completely
 
 add_shortcode('sv_prod_price', 'sv_prod_price_shortcode');
-function sv_prod_price_shortcode()
-{
-    // global $product;
+function sv_prod_price_shortcode() {
+    global $product;  // $product    = wc_get_product($product_id);
     $product_id = get_the_ID();
-    $product    = wc_get_product($product_id);
     if(is_object($product) ) {
         // $weight     = $product->get_weight();  // 상품 데이터 > 배송 > 무게(kg)
         $attributes    = $product->get_attributes();
@@ -31,36 +29,25 @@ function sv_prod_price_shortcode()
         $sale_price    = null;
         $regular_price = null;
     }
+
+    global $n_theme_setup_page_id;  // set on functions.php
+    $s_pa_slug_csv = (string)get_field( 'pa_slug', $n_theme_setup_page_id );
+    $a_pa_attr = array();
+    foreach( explode( ',', $s_pa_slug_csv ) as $_ => $s_pa_slug ) {
+        $s_tmp_pa_slug = 'pa_' . trim( $s_pa_slug );
+        $s_pa_label = wc_attribute_label( $s_tmp_pa_slug, $product );
+        if(isset($attributes[ $s_tmp_pa_slug ])) {
+            $volume_attribute = $attributes[ $s_tmp_pa_slug ];
+            if ($volume_attribute->is_taxonomy()) {
+                $a_value  = wc_get_product_terms($product_id, $volume_attribute->get_name(), array('fields' => 'names'));         
+                $a_pa_attr[ $s_pa_label ] = join(', ', $a_value);
+                unset( $a_value );
+            } else {
+                $a_pa_attr[ $s_pa_label ] = $volume_attribute->get_options();
+            }
+        }
+    }
     unset( $product );
-
-    $link_setting = get_field('link_setting');
-
-    if(isset($attributes['pa_volume'])) {
-        $volume_attribute = $attributes['pa_volume'];
-        if ($volume_attribute->is_taxonomy()) {
-            $a_value  = wc_get_product_terms($product_id, $volume_attribute->get_name(), array('fields' => 'names'));
-            $volume = join(', ', $a_value);
-            unset( $a_value );
-        } else {
-            $volume = $volume_attribute->get_options();
-        }
-    }
-    else {
-        $volume = null;
-    }
-    if(isset($attributes['pa_scent'])) {
-        $scent_attribute = $attributes['pa_scent'];
-        if ($scent_attribute->is_taxonomy()) {
-            $a_value  = wc_get_product_terms($product_id, $scent_attribute->get_name(), array('fields' => 'names'));
-            $scent = join( ', ', $a_value );
-            unset( $a_value );
-        } else {
-            $scent = $scent_attribute->get_options();
-        }
-    }
-    else {
-        $scent = null;
-    }
     unset( $attributes );
     ob_start();
     ?>
@@ -68,11 +55,15 @@ function sv_prod_price_shortcode()
     <div id="prod_detail" class="<?php echo $sale_price != '' ? 'on-sale' : '' ?>">
     <?php if ($regular_price) : ?><p class="price"><span class="tit">판매가</span><span class="description"><?php echo wc_price($regular_price) ?></span></p><?php endif ?>
         <?php if ($sale_price) : ?><p class="sale-price"><span class="tit">할인가</span><span class="description"><?php echo wc_price($sale_price) ?></span></p><?php endif ?>
-        <?php if ($scent) : ?><p class=""><span class="tit">향</span><span class="description"><?php echo esc_html($scent) ?></span></p><?php endif ?>
-        <?php if ($volume) : ?><p class=""><span class="tit">용량</span><span class="description"><?php echo $volume ?></span></p><?php endif ?>
+        <?php foreach( $a_pa_attr as $s_pa_lbl => $s_pa_value ) : ?>
+            <p class=""><span class="tit"><?php echo esc_html($s_pa_lbl) ?></span><span class="description"><?php echo esc_html($s_pa_value) ?></span></p>
+        <?php endforeach;
+        unset( $a_pa_attr ); ?>
     </div>
 
-    <?php if (!empty($link_setting)) :  // simulate WC add to cart button to transfer add-to-cart beacon to GA4 ?>
+    <?php
+    $link_setting = get_field('link_setting');
+    if (!empty($link_setting)) :  // simulate WC add to cart button to transfer add-to-cart beacon to GA4 ?>
         <div id="prod_link">
             <form class="cart" action="<?php echo get_permalink(); ?>" method="post" enctype="multipart/form-data">
                 <input type="hidden" id="quantity_<?php echo uniqid(); ?>" name="quantity" value="1">
@@ -89,8 +80,7 @@ function sv_prod_price_shortcode()
 }
 
 add_shortcode('sv_prod_related_posts', 'sv_prod_related_posts_shortcode');
-function sv_prod_related_posts_shortcode()
-{
+function sv_prod_related_posts_shortcode() {
     global $n_theme_setup_page_id;  // set on functions.php
     $posts = get_field('related_post');
     ob_start();
@@ -143,8 +133,7 @@ function sv_prod_related_posts_shortcode()
 }
 
 add_shortcode('sv_prod_related_discussion', 'sv_prod_related_discussion_shortcode');
-function sv_prod_related_discussion_shortcode()
-{
+function sv_prod_related_discussion_shortcode() {
     $s_discussion_title = get_field('discussion_title');
 
     $o_param = new stdClass();
@@ -206,8 +195,7 @@ function sv_prod_related_discussion_shortcode()
     return ob_get_clean();
 }
 
-function custom_script_load_for_product_page()
-{
+function custom_script_load_for_product_page() {
     if ( function_exists('is_product') && is_product()) : // run on WC single product page only ?>
         <script>
             jQuery(document).ready(function($) {
@@ -257,8 +245,7 @@ function custom_script_load_for_product_page()
 }
 add_action('wp_footer', 'custom_script_load_for_product_page');
 
-function custom_script_load_for_shop_page()
-{
+function custom_script_load_for_shop_page() {
     if ( function_exists('is_shop') && is_shop()) : // run on catalog page only ?>
         <script>
             jQuery(document).ready(function($) {
