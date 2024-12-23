@@ -16,7 +16,7 @@ function disable_add_to_cart_button( $is_purchasable ) {
 
 add_shortcode('sv_prod_price', 'sv_prod_price_shortcode');
 function sv_prod_price_shortcode() {
-    global $product;  // $product    = wc_get_product($product_id);
+    global $product;  // $product = wc_get_product($product_id);
     $product_id = get_the_ID();
     if(is_object($product) ) {
         // $weight     = $product->get_weight();  // 상품 데이터 > 배송 > 무게(kg)
@@ -47,18 +47,23 @@ function sv_prod_price_shortcode() {
             }
         }
     }
-    unset( $product );
     unset( $attributes );
     ob_start();
     ?>
 
     <div id="prod_detail" class="<?php echo $sale_price != '' ? 'on-sale' : '' ?>">
-    <?php if ($regular_price) : ?><p class="price"><span class="tit">판매가</span><span class="description"><?php echo wc_price($regular_price) ?></span></p><?php endif ?>
+        <?php if ($regular_price) : ?><p class="price"><span class="tit">판매가</span><span class="description"><?php echo wc_price($regular_price) ?></span></p><?php endif ?>
         <?php if ($sale_price) : ?><p class="sale-price"><span class="tit">할인가</span><span class="description"><?php echo wc_price($sale_price) ?></span></p><?php endif ?>
         <?php foreach( $a_pa_attr as $s_pa_lbl => $s_pa_value ) : ?>
             <p class=""><span class="tit"><?php echo esc_html($s_pa_lbl) ?></span><span class="description"><?php echo esc_html($s_pa_value) ?></span></p>
         <?php endforeach;
         unset( $a_pa_attr ); ?>
+        <?php // get all downloadable files from the product
+        $a_file_list = $product->get_files();
+        foreach( $a_file_list as $a_file_single ) : //Loop through each downloadable file ?>
+            <p class=""><span class="tit">다운로드</span><span class="description"><a href="<?php echo $a_file_single['file']?>" download target="_blank"><i class="fa fa-download"></i><?php echo $a_file_single['name']?></a></span></p>
+        <?php endforeach;
+        unset( $a_file_list ); ?>
     </div>
 
     <?php
