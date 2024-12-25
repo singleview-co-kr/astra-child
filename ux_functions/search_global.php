@@ -10,8 +10,14 @@ if (! defined('ABSPATH') ) {
 }
 
 add_shortcode('global_search', 'global_search_shortcode');
-function global_search_shortcode()
-{
+function global_search_shortcode() {
+    global $n_theme_setup_page_id;  // set on functions.php
+    $s_global_search_product_label = get_field( 'global_search_product_label', $n_theme_setup_page_id );
+    $s_global_search_blog_label = get_field( 'global_search_blog_label', $n_theme_setup_page_id );
+    $s_global_search_x2board_label = get_field( 'global_search_x2board_label', $n_theme_setup_page_id );
+    $s_global_search_product_label = $s_global_search_product_label == '' ? '상품' : $s_global_search_product_label;
+    $s_global_search_blog_label = $s_global_search_blog_label == '' ? '블로그' : $s_global_search_blog_label;
+    $s_global_search_x2board_label = $s_global_search_x2board_label == '' ? '묻고 답하기' : $s_global_search_x2board_label;
     ob_start();
     ?>
     <div id="global_search">
@@ -28,15 +34,15 @@ function global_search_shortcode()
         <ul class="nav nav-search mb-3" id="search-tab" role="tablist">
             <?php if ( function_exists('is_product') ): ?>
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="search-product-tab" data-bs-toggle="pill" data-bs-target="#search-product" type="button" role="tab" aria-controls="search-product" aria-selected="true">상품<span class="cnt">0</span></button>
+                <button class="nav-link active" id="search-product-tab" data-bs-toggle="pill" data-bs-target="#search-product" type="button" role="tab" aria-controls="search-product" aria-selected="true"><?php echo $s_global_search_product_label ?><span class="cnt">0</span></button>
             </li>
             <?php endif ?>
             <li class="nav-item <?php if ( !function_exists('is_product') ): ?>active<?php endif ?>" role="presentation">
-                <button class="nav-link" id="search-blog-tab" data-bs-toggle="pill" data-bs-target="#search-blog" type="button" role="tab" aria-controls="search-blog" aria-selected="false">블로그<span class="cnt">0</span></button>
+                <button class="nav-link" id="search-blog-tab" data-bs-toggle="pill" data-bs-target="#search-blog" type="button" role="tab" aria-controls="search-blog" aria-selected="false"><?php echo $s_global_search_blog_label ?><span class="cnt">0</span></button>
             </li>
             <?php if ( defined( 'X2B_PATH' ) ) : ?>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="search-qna-tab" data-bs-toggle="pill" data-bs-target="#search-qna" type="button" role="tab" aria-controls="search-qna" aria-selected="false">묻고 답하기<span class="cnt">0</span></button>
+                <button class="nav-link" id="search-qna-tab" data-bs-toggle="pill" data-bs-target="#search-qna" type="button" role="tab" aria-controls="search-qna" aria-selected="false"><?php echo $s_global_search_x2board_label ?><span class="cnt">0</span></button>
             </li>
             <?php endif ?>
         </ul>
