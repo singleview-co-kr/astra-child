@@ -5,6 +5,8 @@ jQuery(($) => {
     });
     jQuery('.blog-category-1 .tab').eq(0).trigger('click');
     jQuery('.blog-category-2 .tab').eq(0).trigger('click');
+    jQuery('.blog-category-3 .tab').eq(0).trigger('click');
+    jQuery('.blog-category-4 .tab').eq(0).trigger('click');
 })
 
 
