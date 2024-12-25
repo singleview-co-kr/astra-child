@@ -78,7 +78,7 @@ function child_enqueue_styles()
     wp_enqueue_style('swiper-style', 'https://fastly.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css');
 
     wp_enqueue_script('jquery');
-    wp_enqueue_script('swiper', 'https://fastly.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js');
+    wp_enqueue_script('swiper-js', 'https://fastly.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js');
     wp_enqueue_script('dotlottie', 'https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js', array(), YCX_ASTRA_CHILD_VERSION, true);
     wp_enqueue_script('bootstrap', get_stylesheet_directory_uri() . '/assets/vendor/bootstrap/bootstrap.bundle.min.js');
     wp_enqueue_script('global_search', get_stylesheet_directory_uri() . '/assets/js/global_search.js', array(), YCX_ASTRA_CHILD_VERSION, true);
