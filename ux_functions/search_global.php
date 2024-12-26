@@ -203,8 +203,7 @@ function global_search_shortcode() {
 add_action('wp_ajax_data_fetch', 'data_fetch');
 add_action('wp_ajax_nopriv_data_fetch', 'data_fetch');
 
-function data_fetch()
-{
+function data_fetch() {
     global $wpdb;
     global $n_theme_setup_page_id;  // set on functions.php
 
@@ -231,11 +230,9 @@ function data_fetch()
     $o_x2b_cache_handler->set_cache_key( implode( '_', $product_args ) );
     $products = $o_x2b_cache_handler->get();
     if( ! $products ) {  // load db
-// error_log(print_r('load wc product from db', true));
-        add_filter('posts_search', 'search_filter_by_title_only', 10, 2);
-    // error_log(print_r(implode( '_', $product_args ), true));
+        // add_filter('posts_search', 'search_filter_by_title_only', 10, 2);
         $products = new WP_Query( $product_args );
-        remove_filter('posts_search', 'search_filter_by_title_only', 10);
+        // remove_filter('posts_search', 'search_filter_by_title_only', 10);
         $o_x2b_cache_handler->put( $products );
     }
     unset( $product_args );
