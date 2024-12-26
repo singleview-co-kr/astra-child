@@ -882,9 +882,9 @@ button.cr-all-reviews-add-review {
 }
 #product_list ul.products li.product a.ast-loop-product__link h2{
     overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    word-break: break-all;
+    /* white-space: nowrap;
+    text-overflow: ellipsis; */
+    word-break: keep-all;
 }
 @media screen and (max-width:768px) {
 
