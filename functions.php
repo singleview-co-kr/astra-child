@@ -16,6 +16,10 @@ if (! defined('ABSPATH') ) {
  */
 define('YCX_ASTRA_CHILD_VERSION', '1.0.1');
 
+// 모양 -> 사용자 정의 -> Extra setup
+// get [템플릿 변수 설정] page id and set globally
+$n_theme_setup_page_id = get_theme_mod( 'extra_setup_page' );
+
 /* add_action('wp_loaded', 'custom_redirect_all_access_including_admin');
 function custom_redirect_all_access_including_admin() {
     $allowed_ips = array('211.202.91.71'); // 허용할 IP 주소를 여기에 입력하세요.
@@ -34,9 +38,14 @@ function custom_redirect_all_access_including_admin() {
     }
 }*/
 
-// 모양 -> 사용자 정의 -> Extra setup
-// get [템플릿 변수 설정] page id and set globally
-$n_theme_setup_page_id = get_theme_mod( 'extra_setup_page' );
+if( get_field( 'unlock_image_size_threshold', $n_theme_setup_page_id ) ) {
+    add_filter( 'big_image_size_threshold', '__return_false' );  // 큰 이미지 파일 업로드 시 이미지 임계값(image threshold) 제한 해제하기
+    // add_filter('big_image_size_threshold', 'sv_big_image_size_threshold', 999, 1);
+}
+// 이미지 임계값을 4000px로 상향 조정
+// function sv_big_image_size_threshold( $threshold ) {
+//     return 4000; // 새로운 임계값
+// }
 
 // show alert if something missed or wrong
 function show_alert_message( $message ) {
