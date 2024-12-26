@@ -478,9 +478,9 @@
 .related-product .productSwiper .thumbnail {
     position: relative;
     padding-bottom: 100%;
-    height: 0;
+    /* height: 0;
     background: #F7F7F7;
-    border-radius: 10px;
+    border-radius: 10px; */
 }
 .related-product .productSwiper .title {
     font-size: 18px;

@@ -16,7 +16,7 @@ function disable_add_to_cart_button( $is_purchasable ) {
 
 add_shortcode('sv_prod_price', 'sv_prod_price_shortcode');
 function sv_prod_price_shortcode() {
-    global $product;  // $product = wc_get_product($product_id);
+    global $product;  // $product    = wc_get_product($product_id);
     $product_id = get_the_ID();
     if(is_object($product) ) {
         // $weight     = $product->get_weight();  // 상품 데이터 > 배송 > 무게(kg)
@@ -47,23 +47,18 @@ function sv_prod_price_shortcode() {
             }
         }
     }
+    unset( $product );
     unset( $attributes );
     ob_start();
     ?>
 
     <div id="prod_detail" class="<?php echo $sale_price != '' ? 'on-sale' : '' ?>">
-        <?php if ($regular_price) : ?><p class="price"><span class="tit">판매가</span><span class="description"><?php echo wc_price($regular_price) ?></span></p><?php endif ?>
+    <?php if ($regular_price) : ?><p class="price"><span class="tit">판매가</span><span class="description"><?php echo wc_price($regular_price) ?></span></p><?php endif ?>
         <?php if ($sale_price) : ?><p class="sale-price"><span class="tit">할인가</span><span class="description"><?php echo wc_price($sale_price) ?></span></p><?php endif ?>
         <?php foreach( $a_pa_attr as $s_pa_lbl => $s_pa_value ) : ?>
             <p class=""><span class="tit"><?php echo esc_html($s_pa_lbl) ?></span><span class="description"><?php echo esc_html($s_pa_value) ?></span></p>
         <?php endforeach;
         unset( $a_pa_attr ); ?>
-        <?php // get all downloadable files from the product
-        $a_file_list = $product->get_files();
-        foreach( $a_file_list as $a_file_single ) : //Loop through each downloadable file ?>
-            <p class=""><span class="tit">다운로드</span><span class="description"><a href="<?php echo $a_file_single['file']?>" download target="_blank"><i class="fa fa-download"></i><?php echo $a_file_single['name']?></a></span></p>
-        <?php endforeach;
-        unset( $a_file_list ); ?>
     </div>
 
     <?php
@@ -293,44 +288,62 @@ function custom_script_load_for_shop_page() {
 }
 add_action('wp_footer', 'custom_script_load_for_shop_page');
 
-/*
 add_shortcode('sv_prod_related_product', 'sv_prod_related_product_shortcode');
-function sv_prod_related_product_shortcode()
-{
-    $products = get_field('recommend_product');
+function sv_prod_related_product_shortcode() {
+    $a_related_product = get_field('related_product');
     ob_start();
     ?>
-    <?php if (!empty($products)) : ?>
-        <div class="related-product">
-            <div class="productSwiper">
-                <div class="swiper-wrapper">
-                    <?php foreach ($products as $item) : ?>
-                        <div class="swiper-slide">
-                            <a href="<?php echo get_permalink($item->ID); ?>">
-                                <div class="thumbnail">
-                                    <?php echo get_the_post_thumbnail($item->ID, 'medium'); ?>
-                                </div>
-                                <p class="title"><?php echo get_the_title($item->ID); ?></p>
-                            </a>
-                        </div>
-                    <?php endforeach; ?>
+    <?php if (!empty($a_related_product)) : ?>
+        <div class="sv-custom-block">
+            <div class="related-product">
+                <div class="productSwiper">
+                    <div class="swiper-wrapper">
+                        <?php foreach ($a_related_product as $o_item) : ?>
+                            <div class="swiper-slide">
+                                <a href="<?php echo get_permalink($o_item->ID); ?>">
+                                    <div class="thumbnail">
+                                        <?php echo get_the_post_thumbnail($o_item->ID, 'thumbnail'); ?>
+                                    </div>
+                                    <p class="title"><?php echo get_the_title($o_item->ID); ?></p>
+                                </a>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
                 </div>
             </div>
         </div>
+        
         <script>
             const productSwiper = new Swiper('.productSwiper', {
-                slidesPerView: 1.4,
-                spaceBetween: 30,
+                direction: 'horizontal',
+                loop: 'true',
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev'
+                },
+                slidesPerView: 2,
+                spaceBetween: 10,
                 breakpoints: {
                     768: {
-                        slidesPerView: 4,
+                        slidesPerView: 5,
                         spaceBetween: 40,
                     }
                 },
             });
         </script>
-    <?php endif ?>
-    <?php
+        <style>
+        :root {
+            --swiper-theme-color: #d9d9d9;
+            --swiper-pagination-bullet-size: 10px;
+            --swiper-pagination-bullet-inactive-color: #D9D9D9;
+            --swiper-pagination-bullet-inactive-opacity: 0.4;
+            /* --swiper-navigation-color: #FF6C7A; */
+        }
+        </style>
+    <?php endif;
+    unset( $o_item );
+    unset( $a_related_product );
     return ob_get_clean();
 }
-*/
