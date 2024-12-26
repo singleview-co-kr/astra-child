@@ -216,10 +216,11 @@ function data_fetch() {
 
     // 상품 검색
     $product_args = array(
-        'post_type' => 'product',
-        'post_status' => 'publish',
+        'post_type'      => 'product',
+        'post_status'    => 'publish',
+        'orderby'        => ['menu_order' => 'ASC', 'meta_value_num' => 'ASC'],
         'posts_per_page' => $posts_per_page,
-        'offset' => $offset,
+        'offset'         => $offset,
     );
     if( $keyword != '' ) {
         $product_args['s'] = $keyword;
@@ -230,9 +231,9 @@ function data_fetch() {
     $o_x2b_cache_handler->set_cache_key( implode( '_', $product_args ) );
     $products = $o_x2b_cache_handler->get();
     if( ! $products ) {  // load db
-        // add_filter('posts_search', 'search_filter_by_title_only', 10, 2);
+        add_filter('posts_search', 'search_filter_by_title_only', 10, 2);
         $products = new WP_Query( $product_args );
-        // remove_filter('posts_search', 'search_filter_by_title_only', 10);
+        remove_filter('posts_search', 'search_filter_by_title_only', 10);
         $o_x2b_cache_handler->put( $products );
     }
     unset( $product_args );
@@ -389,8 +390,7 @@ function data_fetch() {
     wp_die();
 }
 
-function search_filter_by_title_only($search, $wp_query)
-{
+function search_filter_by_title_only($search, $wp_query) {
     global $wpdb;
 
     if (empty($search)) {
@@ -405,7 +405,7 @@ function search_filter_by_title_only($search, $wp_query)
         foreach ($search_terms as $term) {
             $search .= "{$wpdb->posts}.post_title LIKE '%" . esc_sql($wpdb->esc_like($term)) . "%' OR ";
         }
-
+error_log(print_r($search, true));
         // 마지막 'OR' 제거
         $search = substr($search, 0, -4);
         // WHERE 절에 AND로 검색 조건을 추가
