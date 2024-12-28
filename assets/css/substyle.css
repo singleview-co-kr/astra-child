@@ -952,9 +952,9 @@ button.cr-all-reviews-add-review {
         width: 14px;
     }
 
-    #product_list .products {
+    /* #product_list .products {  // force to display single product per row on mobile
         grid-template-columns: 100%;
-    }
+    } */
 
     .related-posts {
         grid-template-columns: 100%;
