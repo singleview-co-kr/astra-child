@@ -127,11 +127,10 @@ require "ux_functions/wc_product.php";
 require "ux_functions/wp_post_topic_list.php";
 require "ux_functions/wp_post_single.php";
 
-function custom_products_per_page($query)
-{
-    if (!is_admin() && is_post_type_archive('product') && $query->is_main_query()) { // 상품 아카이브 페이지에만 적용
-        $query->set('posts_per_page', 8);
-    }
-    return $query;
-}
-add_filter('pre_get_posts', 'custom_products_per_page');
+// function custom_products_per_page($query) {  // ignore woocommerce setup of theme customizer and force to display 8 products per page
+//     if (!is_admin() && is_post_type_archive('product') && $query->is_main_query()) { // 상품 아카이브 페이지에만 적용
+//         $query->set('posts_per_page', 8);
+//     }
+//     return $query;
+// }
+// add_filter('pre_get_posts', 'custom_products_per_page');
