@@ -279,7 +279,7 @@ function data_fetch() {
             $products_output .= "<a href='{$product_permalink}' class='product-link'>";
             $products_output .= "<div class='thumbnail'><img src='" . get_the_post_thumbnail_url($product_id, 'medium') . "'></div>";
             $products_output .= "<div class='text-wrap'>";
-            $products_output .= "<p class='title ellipsis-1'>" . get_the_title() . "</p>";
+            $products_output .= "<p class='title global_search_product_title'>" . get_the_title() . "</p>";
             $products_output .= "<p class='price'>" . number_format(intval($product->get_regular_price())) . "원</p>";
             if ($product->get_sale_price() > 0) {
                 $products_output .= "<p class='sale'>" . number_format(intval($product->get_sale_price())) . "원</p>";

@@ -86,6 +86,11 @@ a:focus {
     outline: none !important;
 }
 
+.global_search_product_title {
+    overflow: hidden;
+    word-break: keep-all;
+}
+
 .ellipsis-1 {
     overflow: hidden;
     white-space: nowrap;
