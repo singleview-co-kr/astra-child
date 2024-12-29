@@ -228,7 +228,9 @@ function data_fetch() {
 
     $o_x2b_cache_handler = new \CacheFileDisk();
     $o_x2b_cache_handler->set_storage_label( 'theme_wc_product' );
-    $o_x2b_cache_handler->set_cache_key( implode( '_', $product_args ) );
+    $a_tmp_product_args = $product_args;
+    $a_tmp_product_args[ 'orderby' ] = implode( '_', $a_tmp_product_args[ 'orderby' ] );
+    $o_x2b_cache_handler->set_cache_key( implode( '_', $a_tmp_product_args ) );
     $products = $o_x2b_cache_handler->get();
     if( ! $products ) {  // load db
         add_filter('posts_search', 'search_filter_by_title_only', 10, 2);
@@ -236,6 +238,7 @@ function data_fetch() {
         remove_filter('posts_search', 'search_filter_by_title_only', 10);
         $o_x2b_cache_handler->put( $products );
     }
+    unset( $a_tmp_product_args );
     unset( $product_args );
 
     // 블로그 검색
