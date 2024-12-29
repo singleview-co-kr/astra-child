@@ -268,6 +268,7 @@ function data_fetch() {
     $response['product'] = array();
     $products_output = '';
     if($products->have_posts() ) {
+        $a_product_info = get_field( 'product_info', $n_theme_setup_page_id );
         while ($products->have_posts()) {
             $products->the_post();
             $product_id = get_the_ID();
@@ -282,15 +283,20 @@ function data_fetch() {
             $products_output .= "<a href='{$product_permalink}' class='product-link'>";
             $products_output .= "<div class='thumbnail'><img src='" . get_the_post_thumbnail_url($product_id, 'medium') . "'></div>";
             $products_output .= "<div class='text-wrap'>";
-            $products_output .= "<p class='title global_search_product_title'>" . get_the_title() . "</p>";
-            $products_output .= "<p class='price'>" . number_format(intval($product->get_regular_price())) . "원</p>";
-            if ($product->get_sale_price() > 0) {
+            if( in_array( 'title', $a_product_info ) ) {
+                $products_output .= "<p class='title global_search_product_title'>" . get_the_title() . "</p>";
+            }
+            if( in_array( 'price', $a_product_info ) ) {
+                $products_output .= "<p class='price'>" . number_format(intval($product->get_regular_price())) . "원</p>";
+            }
+            if ( in_array( 'sale_price', $a_product_info ) && $product->get_sale_price() > 0) {
                 $products_output .= "<p class='sale'>" . number_format(intval($product->get_sale_price())) . "원</p>";
             }
             $products_output .= "</div>";
             $products_output .= "</a>";
             $products_output .= "</li>";
         }
+        unset( $a_product_info );
         $response['product']['html'] = $products_output;
     }
     $response['product']['total'] = $products->found_posts;
