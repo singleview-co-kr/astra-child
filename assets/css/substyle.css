@@ -896,9 +896,11 @@ button.cr-all-reviews-add-review {
     }
     .mainBannerSwiper .swiper-slide .text_wrap .title_medium_font {
         font-size: 28px;
+        -webkit-text-stroke: 1px grey;
     }
     .mainBannerSwiper .swiper-slide .text_wrap .title_big_font {
         font-size: 38px;
+        -webkit-text-stroke: 1px grey;
     }
     .mainBannerSwiper .swiper-slide .text_wrap .subtitle {
         font-size: 16px;
