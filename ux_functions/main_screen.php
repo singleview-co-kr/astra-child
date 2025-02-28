@@ -26,8 +26,8 @@ function main_slide_shortcode() {
                         <img src="<?php echo $a_single_slide['thumbnail_mobile']['url'] ?>" class="mobile">
                     </div>
                     <div class="text_wrap">
-                        <h3 class="title pc" style='color: black'><?php echo $s_pc_title ?></h3>
-                        <h3 class="title_<?php echo $a_single_slide['mob_title_medium_font'] ?>_font mobile" style='color: black'><?php echo $s_mobile_title ?></h3>
+                        <h3 class="title pc" style='color: <?php echo $a_single_slide['font_color_title'] ?>'><?php echo $s_pc_title ?></h3>
+                        <h3 class="title_<?php echo $a_single_slide['mob_title_medium_font'] ?>_font mobile" style='color: <?php echo $a_single_slide['font_color_title'] ?>'><?php echo $s_mobile_title ?></h3>
                         <!-- <p class="subtitle"><?php // echo nl2br($a_single_slide['subtitle']) ?></p> -->
                         <a href="<?php echo $a_single_slide['button_url'] ?>" class="btn_st1"><?php echo $s_button_label ?></a>
                     </div>
